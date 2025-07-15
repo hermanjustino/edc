@@ -49,7 +49,7 @@ Users will:
 
 ## 📦 Features
 
-- ✅ Interactive drag-and-drop interface (vanilla JS or lightweight library)
+- ✅ Interactive drag-and-drop interface
 - ✅ Responsive and mobile-friendly layout
 - ✅ Personalized result screen
 - ✅ Data-driven content using EDC’s public service spreadsheet
@@ -62,14 +62,6 @@ Users will:
 - Social share buttons for result screen
 - Service-by-service feedback on right/wrong answers
 - Aggregated quiz stats (e.g., “Only 42% of players knew garbage collection is municipal!”)
-
----
-
-## 🧰 Tech Stack
-
-- HTML/CSS/JavaScript
-- Drag-and-drop library (e.g., `Interact.js`, `SortableJS`, or native HTML5)
-- Optional: Figma for layout/wireframes
 
 ---
 

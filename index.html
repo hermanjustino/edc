@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who's in Charge? - Civic Engagement Quiz</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Open Graph meta tags for social sharing -->
+    <meta property="og:title" content="Who's in Charge? - Civic Engagement Quiz">
+    <meta property="og:description" content="Test your knowledge of Canadian government responsibilities">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com/quiz">
+    <meta property="og:image" content="https://your-domain.com/quiz-preview.jpg">
+    
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Who's in Charge? - Civic Engagement Quiz">
+    <meta name="twitter:description" content="Test your knowledge of Canadian government responsibilities">
+    <meta name="twitter:image" content="https://your-domain.com/quiz-preview.jpg">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧩 Who's in Charge?</h1>
+            <p>Test your knowledge of Canadian government responsibilities</p>
+        </header>
+
+        <main>
+            <!-- Quiz Screen -->
+            <div id="quiz-screen" class="screen active">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="question-counter">
+                    <span id="current-question">1</span> of <span id="total-questions">7</span>
+                </div>
+                
+                <div class="question-card">
+                    <h2 id="question-text">Loading...</h2>
+                    <p class="question-subtitle">Drag the service icon to the correct government level</p>
+                    
+                    <div class="drop-zones">
+                        <div class="drop-zone" data-government="Municipal">
+                            <div class="zone-icon">🏙️</div>
+                            <div class="zone-label">Municipal</div>
+                            <div class="zone-description">Cities & Towns</div>
+                        </div>
+                        <div class="drop-zone" data-government="Provincial">
+                            <div class="zone-icon">🏛️</div>
+                            <div class="zone-label">Provincial</div>
+                            <div class="zone-description">Provinces & Territories</div>
+                        </div>
+                        <div class="drop-zone" data-government="Federal">
+                            <div class="zone-icon">🇨🇦</div>
+                            <div class="zone-label">Federal</div>
+                            <div class="zone-description">National Government</div>
+                        </div>
+                    </div>
+                    
+                    <div class="drag-area">
+                        <div class="drag-instructions">Drag this service:</div>
+                        <div class="draggable-card" draggable="true" id="draggable-service" tabindex="0">
+                            <div class="service-emoji" id="service-emoji">🗑️</div>
+                            <div class="service-name" id="service-name">Garbage Collection</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Screen -->
+            <div id="results-screen" class="screen">
+                <div class="results-card">
+                    <h2>Quiz Complete!</h2>
+                    <div class="score-display">
+                        <span class="score-number" id="final-score">0</span>
+                        <span class="score-total">out of 12</span>
+                    </div>
+                    
+                    <div class="persona-result">
+                        <h3 id="persona-title">Your Civic Persona</h3>
+                        <div class="persona-badge" id="persona-badge">
+                            <span id="persona-name">Civic Explorer</span>
+                        </div>
+                        <p id="persona-message">Keep exploring to learn more about how government works!</p>
+                    </div>
+                    
+                    <div class="share-section">
+                        <h4>Share Your Results</h4>
+                        <div class="share-buttons">
+                            <button class="share-btn twitter-btn" id="share-twitter">
+                                <span class="share-icon">🐦</span>
+                                Twitter
+                            </button>
+                            <button class="share-btn facebook-btn" id="share-facebook">
+                                <span class="share-icon">📘</span>
+                                Facebook
+                            </button>
+                            <button class="share-btn linkedin-btn" id="share-linkedin">
+                                <span class="share-icon">💼</span>
+                                LinkedIn
+                            </button>
+                            <button class="share-btn copy-btn" id="share-copy">
+                                <span class="share-icon">📋</span>
+                                Copy Link
+                            </button>
+                        </div>
+                        <div class="share-feedback" id="share-feedback"></div>
+                    </div>
+                    
+                    <button id="restart-btn" class="restart-btn">
+                        🔄 Try Again
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
