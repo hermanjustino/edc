@@ -302,6 +302,17 @@ header p {
     box-shadow: 0 3px 10px rgba(74, 144, 226, 0.2);
 }
 
+.drop-zone[style*="pointer-events: none"] {
+    cursor: not-allowed;
+}
+
+.drop-zone[style*="pointer-events: none"]:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: #e0e0e0;
+    background: #f8f9ff;
+}
+
 .drop-zone.drag-over {
     border-color: #2c5aa0;
     background: #e6f3ff;
@@ -384,6 +395,15 @@ header p {
 .draggable-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
+}
+
+.draggable-card[style*="pointer-events: none"] {
+    cursor: not-allowed;
+}
+
+.draggable-card[style*="pointer-events: none"]:hover {
+    transform: none;
+    box-shadow: none;
 }
 
 .draggable-card:active,

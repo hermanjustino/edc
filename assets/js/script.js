@@ -69,6 +69,7 @@ class CivicQuiz {
         this.score = 0;
         this.userAnswers = [];
         this.draggedElement = null;
+        this.isProcessing = false; // Add processing state
         
         this.personas = {
             "Civic Explorer": {
@@ -250,6 +251,10 @@ class CivicQuiz {
     
     handleDrop(e) {
         e.preventDefault();
+        
+        // Prevent multiple submissions
+        if (this.isProcessing) return;
+        
         const dropZone = e.target.closest('.drop-zone');
         dropZone.classList.remove('drag-over');
         
@@ -258,6 +263,9 @@ class CivicQuiz {
     }
     
     handleZoneClick(e) {
+        // Prevent multiple submissions
+        if (this.isProcessing) return;
+        
         const dropZone = e.target.closest('.drop-zone');
         const selectedAnswer = dropZone.dataset.government;
         this.processAnswer(selectedAnswer, dropZone);
@@ -274,6 +282,10 @@ class CivicQuiz {
     handleZoneKeyDown(e) {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
+            
+            // Prevent multiple submissions
+            if (this.isProcessing) return;
+            
             const selectedAnswer = e.target.dataset.government;
             this.processAnswer(selectedAnswer, e.target);
         }
@@ -305,6 +317,10 @@ class CivicQuiz {
     
     handleTouchEnd(e) {
         e.preventDefault();
+        
+        // Prevent multiple submissions
+        if (this.isProcessing) return;
+        
         const touch = e.changedTouches[0];
         const element = document.elementFromPoint(touch.clientX, touch.clientY);
         const dropZone = element?.closest('.drop-zone');
@@ -319,6 +335,12 @@ class CivicQuiz {
     }
     
     processAnswer(selectedAnswer, dropZone) {
+        // Set processing state to prevent multiple clicks
+        this.isProcessing = true;
+        
+        // Disable all drop zones
+        this.disableInteractions();
+        
         const currentQ = this.questions[this.currentQuestion];
         const isCorrect = selectedAnswer === currentQ.correct;
         
@@ -348,16 +370,44 @@ class CivicQuiz {
             if (this.currentQuestion < this.questions.length) {
                 this.updateProgress();
                 this.displayQuestion();
+                // Re-enable interactions after question loads
+                setTimeout(() => {
+                    this.enableInteractions();
+                    this.isProcessing = false;
+                }, 200);
             } else {
                 this.showResults();
+                this.isProcessing = false;
             }
         }, 1500);
     }
     
-    updateShareContent() {
-        const persona = this.getPersona();
-        this.shareText = `🧩 I just completed the "Who's in Charge?" quiz and got ${this.score}/${this.questions.length} correct! My civic persona is "${persona.name}". Test your knowledge of Canadian government responsibilities!`;
-        this.shareHashtags = 'CivicEngagement,Canada,Government,Quiz,EDC';
+    disableInteractions() {
+        // Disable all drop zones
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            zone.style.pointerEvents = 'none';
+            zone.style.opacity = '0.7';
+        });
+        
+        // Disable draggable card
+        const draggable = document.getElementById('draggable-service');
+        draggable.draggable = false;
+        draggable.style.pointerEvents = 'none';
+        draggable.style.opacity = '0.7';
+    }
+    
+    enableInteractions() {
+        // Re-enable all drop zones
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            zone.style.pointerEvents = 'auto';
+            zone.style.opacity = '1';
+        });
+        
+        // Re-enable draggable card
+        const draggable = document.getElementById('draggable-service');
+        draggable.draggable = true;
+        draggable.style.pointerEvents = 'auto';
+        draggable.style.opacity = '1';
     }
     
     showFeedback(isCorrect, correctAnswer) {
@@ -529,6 +579,10 @@ class CivicQuiz {
         this.currentQuestion = 0;
         this.score = 0;
         this.userAnswers = [];
+        this.isProcessing = false; // Reset processing state
+        
+        // Generate new questions for replay
+        this.questions = this.generateQuestions();
         
         const quizScreen = document.getElementById('quiz-screen');
         const resultsScreen = document.getElementById('results-screen');
@@ -536,8 +590,14 @@ class CivicQuiz {
         resultsScreen.classList.remove('active');
         setTimeout(() => {
             quizScreen.classList.add('active');
+            // Update total questions display with new question set
+            document.getElementById('total-questions').textContent = this.questions.length;
             this.updateProgress();
             this.displayQuestion();
+            // Ensure interactions are enabled on restart
+            setTimeout(() => {
+                this.enableInteractions();
+            }, 200);
         }, 300);
     }
 }
