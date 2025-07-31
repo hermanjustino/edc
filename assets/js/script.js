@@ -92,7 +92,7 @@ class CivicQuiz {
         
         this.quizUrl = window.location.href;
         this.quizTitle = "Who's in Charge? - Civic Engagement Quiz";
-        this.quizDescription = "Test your knowledge of Canadian government responsibilities";
+        this.quizDescription = "Test your knowledge of government responsibilities in Canada.";
         
         this.init();
     }
@@ -169,11 +169,12 @@ class CivicQuiz {
         draggable.addEventListener('touchmove', (e) => this.handleTouchMove(e));
         draggable.addEventListener('touchend', (e) => this.handleTouchEnd(e));
         
-        // Share button events
-        document.getElementById('share-twitter').addEventListener('click', () => this.shareToTwitter());
-        document.getElementById('share-facebook').addEventListener('click', () => this.shareToFacebook());
-        document.getElementById('share-linkedin').addEventListener('click', () => this.shareToLinkedIn());
-        document.getElementById('share-copy').addEventListener('click', () => this.copyLink());
+        // Add next button event
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'next-btn') {
+                this.handleNextQuestion();
+            }
+        });
         
         document.getElementById('restart-btn').addEventListener('click', () => this.restart());
     }
@@ -360,26 +361,8 @@ class CivicQuiz {
         // Visual feedback
         dropZone.classList.add(isCorrect ? 'correct-answer' : 'incorrect-answer');
         
-        // Show feedback message
+        // Show feedback message with next button
         this.showFeedback(isCorrect, currentQ.correct);
-        
-        // Move to next question after delay
-        setTimeout(() => {
-            this.currentQuestion++;
-            
-            if (this.currentQuestion < this.questions.length) {
-                this.updateProgress();
-                this.displayQuestion();
-                // Re-enable interactions after question loads
-                setTimeout(() => {
-                    this.enableInteractions();
-                    this.isProcessing = false;
-                }, 200);
-            } else {
-                this.showResults();
-                this.isProcessing = false;
-            }
-        }, 1500);
     }
     
     disableInteractions() {
@@ -429,12 +412,42 @@ class CivicQuiz {
             feedbackDiv.appendChild(contextDiv);
         }
         
+        // Add next button
+        const nextButton = document.createElement('button');
+        nextButton.id = 'next-btn';
+        nextButton.className = 'next-btn';
+        
+        if (this.currentQuestion < this.questions.length - 1) {
+            nextButton.innerHTML = '➡️ Next Question';
+        } else {
+            nextButton.innerHTML = '🏁 See Results';
+        }
+        
+        feedbackDiv.appendChild(nextButton);
+        
         document.querySelector('.drag-area').appendChild(feedbackDiv);
         
         // Trigger animation
         setTimeout(() => {
             feedbackDiv.classList.add('show');
         }, 100);
+    }
+    
+    handleNextQuestion() {
+        this.currentQuestion++;
+        
+        if (this.currentQuestion < this.questions.length) {
+            this.updateProgress();
+            this.displayQuestion();
+            // Re-enable interactions after question loads
+            setTimeout(() => {
+                this.enableInteractions();
+                this.isProcessing = false;
+            }, 200);
+        } else {
+            this.showResults();
+            this.isProcessing = false;
+        }
     }
     
     getEnvironmentalContext(service) {
@@ -485,21 +498,6 @@ class CivicQuiz {
         
         // Update share buttons with current results
         this.updateShareContent();
-    }
-    
-    shareToTwitter() {
-        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(this.shareText)}&url=${encodeURIComponent(this.quizUrl)}&hashtags=${this.shareHashtags}`;
-        this.openShareWindow(url);
-    }
-    
-    shareToFacebook() {
-        const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.quizUrl)}&quote=${encodeURIComponent(this.shareText)}`;
-        this.openShareWindow(url);
-    }
-    
-    shareToLinkedIn() {
-        const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(this.quizUrl)}&title=${encodeURIComponent(this.quizTitle)}&summary=${encodeURIComponent(this.shareText)}`;
-        this.openShareWindow(url);
     }
     
     async copyLink() {
@@ -602,7 +600,6 @@ class CivicQuiz {
     }
 }
 
-// Initialize the quiz when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     new CivicQuiz();
 });

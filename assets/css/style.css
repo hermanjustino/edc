@@ -1,3 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Gotham:wght@700&display=swap');
+
+/* Custom font face for Boldonse */
+@font-face {
+    font-family: 'Boldonse';
+    src: url('../fonts/Boldonse.woff2') format('woff2'),
+         url('../fonts/Boldonse.woff') format('woff'),
+         url('../fonts/Boldonse.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +24,7 @@ html, body {
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #008C7A 0%, #006b5d 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -33,7 +46,7 @@ body {
 }
 
 header {
-    background: linear-gradient(135deg, #2c5aa0 0%, #4a90e2 100%);
+    background: linear-gradient(135deg, #003940 0%, #005962 100%);
     color: white;
     text-align: center;
     padding: 20px 15px;
@@ -41,6 +54,7 @@ header {
 }
 
 header h1 {
+    font-family: 'Boldonse', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.6rem;
     margin-bottom: 5px;
     font-weight: 700;
@@ -118,10 +132,11 @@ header p {
 }
 
 .question-card h2 {
+    font-family: 'Gotham', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
     font-size: 1.3rem;
-    color: #2c5aa0;
+    color: #003940;
     margin-bottom: 8px;
-    font-weight: 600;
     line-height: 1.3;
     flex-shrink: 0;
 }
@@ -186,8 +201,10 @@ header p {
 }
 
 .results-card h2 {
+    font-family: 'Gotham', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
     font-size: 1.6rem;
-    color: #2c5aa0;
+    color: #003940;
     margin-bottom: 20px;
 }
 
@@ -220,7 +237,9 @@ header p {
 }
 
 .persona-result h3 {
-    color: #2c5aa0;
+    font-family: 'Gotham', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    color: #003940;
     margin-bottom: 10px;
     font-size: 1rem;
 }
@@ -466,95 +485,6 @@ header p {
     border: 1px solid #f5c6cb;
 }
 
-.share-section {
-    margin: 20px 0;
-    padding: 15px;
-    background: #f0f6ff;
-    border-radius: 10px;
-    border: 1px solid #e0edff;
-}
-
-.share-section h4 {
-    color: #2c5aa0;
-    font-size: 1rem;
-    margin-bottom: 12px;
-    text-align: center;
-}
-
-.share-buttons {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-}
-
-.share-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    color: white;
-    min-width: 80px;
-    justify-content: center;
-}
-
-.share-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.share-btn:active {
-    transform: translateY(0);
-}
-
-.share-icon {
-    font-size: 1rem;
-}
-
-.twitter-btn {
-    background: #1da1f2;
-}
-
-.twitter-btn:hover {
-    background: #1991db;
-}
-
-.facebook-btn {
-    background: #4267b2;
-}
-
-.facebook-btn:hover {
-    background: #365899;
-}
-
-.linkedin-btn {
-    background: #0077b5;
-}
-
-.linkedin-btn:hover {
-    background: #006399;
-}
-
-.copy-btn {
-    background: #6c757d;
-}
-
-.copy-btn:hover {
-    background: #5a6268;
-}
-
-.copy-btn.copied {
-    background: #28a745;
-}
-
 .share-feedback {
     text-align: center;
     font-size: 0.8rem;
@@ -579,6 +509,36 @@ header p {
     font-style: italic;
     color: #555;
     line-height: 1.4;
+}
+
+.next-btn {
+    background: linear-gradient(135deg, #4a90e2, #2c5aa0);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.next-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
+}
+
+.next-btn:active {
+    transform: translateY(0);
+}
+
+.next-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
 }
 
 /* Mobile Responsive */
@@ -675,33 +635,15 @@ header p {
         padding: 15px;
     }
     
-    .share-section {
-        margin: 15px 0;
-        padding: 12px;
-    }
-    
-    .share-section h4 {
-        font-size: 0.9rem;
-        margin-bottom: 10px;
-    }
-    
-    .share-buttons {
-        gap: 6px;
-    }
-    
-    .share-btn {
-        padding: 6px 10px;
-        font-size: 0.75rem;
-        min-width: 70px;
-    }
-    
-    .share-icon {
-        font-size: 0.9rem;
-    }
-    
     .context-message {
         font-size: 0.7rem;
         padding: 4px;
+    }
+    
+    .next-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        margin-top: 12px;
     }
 }
 
@@ -740,18 +682,10 @@ header p {
         font-size: 0.7rem;
     }
     
-    .share-buttons {
-        gap: 4px;
-    }
-    
-    .share-btn {
-        padding: 5px 8px;
-        font-size: 0.7rem;
-        min-width: 60px;
-    }
-    
-    .share-icon {
-        font-size: 0.8rem;
+    .next-btn {
+        padding: 6px 14px;
+        font-size: 0.75rem;
+        margin-top: 10px;
     }
 }
 
