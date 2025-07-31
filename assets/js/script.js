@@ -94,7 +94,159 @@ class CivicQuiz {
         this.quizTitle = "Who's in Charge? - Civic Engagement Quiz";
         this.quizDescription = "Test your knowledge of government responsibilities in Canada.";
         
+        // Add feedback messages for each service
+        this.feedbackMessages = {
+            // Federal services
+            "Mail": "Canada Post is a Crown Corporation created by the Federal Government.",
+            "Currency": "Coins are produced by the Royal Canadian Mint. Bills are produced by the Canadian Bank Note Company based on the direction of the Bank of Canada, a crown corporation with considerable independence from the Federal Government.",
+            "Banking": "Decisions about money supply, lending to private banks and interest rates are made by the Bank of Canada, a crown corporation.  Banking regulations are set by the Federal Government.",
+            "Shipping": "When transportation crosses provincial and international borders it is usually regulated by the Federal Government - except for cars, trucks and highways.",
+            "Airports": "When transportation crosses provincial and international borders it is usually regulated by the Federal Government - except for cars, trucks and highways.",
+            "Railways": "Most infrastructure that crosses provincial borders is a federal responsibility.",
+            "Pipelines": "Most infrastructure that crosses provincial borders is a federal responsibility.",
+            "Telephones": "Most infrastructure that crosses provincial borders is a federal responsibility.",
+            "Federal Income Tax": "The Canada Revenue Agency collects federal income taxes.",
+            "Employment Insurance": "The federal government also provides Old Age Security and regulates the Canada Pension Plan.",
+            "Criminal Law": "The Criminal Code of Canada is federal legislation.",
+            "Aboriginal Lands and Rights": "Canada has treaties with many Indigenous nations. Upholding these treaties is the responsibility of the federal government.  Some land in Canada, especially in British Columbia, is unceded. No treaties were ever signed and the Indigenous Title to this land is still in place.",
+            "Foreign Affairs": "International treaties on trade and other issues are negotiated and signed by the federal government.",
+            "National Defence": "Funding and maintaining national defence forces is a Federal Responsibility.  In 2025, the federal government pledged to gradually increase spending on national defence to 3.5% of GDP.  This will mean more than doubling defence spending from current levels.",
+
+            // Provincial services
+            "Education": "Provinces manage and fund the education system, including colleges and universities. In 2025, the Ontario government has been displaying their power over education by seizing control of local school boards throughout the province.",
+            "Healthcare": "Healthcare policy and funding are a provincial responsibility, but some costs are covered by the federal government in the form of Canada Health Transfer payments. You can learn more about healthcare policy from the Ontario Nurses Association, the Ontario Health Coalition or the Canadian Association of Physicians for the Environment.",
+            "Road Regulations": "Provincial governments set the rules of the road and issue drivers licenses.",
+            "Driver's licenses": "Driver's licenses are issued by provincial governments.",
+            "Highways": "Provincial governments fund and maintain larger highways.  Ontario's proposed Highway 413 will cost over 7 Billion to build and pave over 2000 acres of farmland, including 400 acres of the Greenbelt.",
+            "Natural Resources": "Rules around mining and extraction are set by provincial governments. These policies impact the economy and the environment and provincial revenues.  The non-partisan group Reform Gravel Mining argues that Ontario has licensed far more quarries and gravel pits than we need.",
+            "Property and Civil Rights": "Property law and civil law are determined by the province. Criminal law is the responsibility of the federal government.",
+            "Labour Standards": "Work safety rules and minimum wage are set by the provincial government.",
+            "Minimum wage": "Each province sets its own minimum wage rates.",
+            "Work safety": "Workplace safety regulations are managed by provincial governments.",
+            "Sales Tax": "Provincial sales tax (PST) is set and collected by provinces.",
+            "Provincial Income Tax": "Provincial income tax rates are set by each province.",
+
+            // Municipal services
+            "Parks": "Local parks are typically owned and maintained by municipal governments.",
+            "Libraries": "Libraries offer a lot more than books!  Check with your local library to learn about classes, talks, computer and tool access and more!",
+            "Local Roads": "Low-density housing tends to drive up property taxes because of the high cost of installing new infrastructure that can't be shared by a large number of residents.",
+            "Parking": "As land and housing costs continue to increase, some urban planners are starting to wonder how much it actually costs to offer so much on-street parking.  'The High Cost of Free Parking' by Donald Shoup is a detailed examination of this issue.",
+            "Public Transportation": "Public transportation is funded and maintained by municipal governments and regional agency like GO transit and Metrolinx, but projects often receive funding from federal and provincial governments.",
+            "Local Land Use (zoning)": "The province sets many of the rules around land-use, but municipalities can define and map zoning. Did you know that zoning which allows only single-family homes drives up property taxes because there are fewer people to share the cost of maintaining infrastructure?",
+            "Water Services": "Low-density housing tends to drive up property taxes and utilities because the cost of maintaining infrastructure must be shared between a small number of residents.",
+            "Local Police": "Local police forces are funded and overseen by municipal governments.",
+            "Fire Protection": "Fire departments are typically municipal services.",
+            "By-law Enforcement": "Local bylaws and their enforcement are municipal responsibilities.",
+            "Waste Collection": "Garbage and recycling collection are municipal services."
+        };
+        
+        // Initialize sound effects
+        this.sounds = {
+            correct: null,
+            incorrect: null
+        };
+        
+        // Flag to track if sounds are ready
+        this.soundsReady = false;
+        
+        // Preload sounds and set volume
+        this.initializeSounds();
+        
         this.init();
+    }
+    
+    initializeSounds() {
+        try {
+            // Create audio objects
+            this.sounds.correct = new Audio('assets/sounds/correct.mp3');
+            this.sounds.incorrect = new Audio('assets/sounds/incorrect.mp3');
+            
+            // Set volume levels (0.0 to 1.0)
+            this.sounds.correct.volume = 0.6;
+            this.sounds.incorrect.volume = 0.5;
+            
+            // Preload sounds for better performance
+            this.sounds.correct.preload = 'auto';
+            this.sounds.incorrect.preload = 'auto';
+            
+            // Load sounds immediately
+            this.sounds.correct.load();
+            this.sounds.incorrect.load();
+            
+            let soundsLoaded = 0;
+            const totalSounds = 2;
+            
+            // Track when sounds are ready
+            const checkSoundsReady = () => {
+                soundsLoaded++;
+                if (soundsLoaded >= totalSounds) {
+                    this.soundsReady = true;
+                    console.log('Sound effects loaded successfully');
+                }
+            };
+            
+            // Handle successful loading
+            this.sounds.correct.addEventListener('canplaythrough', checkSoundsReady);
+            this.sounds.incorrect.addEventListener('canplaythrough', checkSoundsReady);
+            
+            // Handle loading errors gracefully
+            this.sounds.correct.addEventListener('error', (e) => {
+                console.warn('Could not load correct sound effect:', e);
+                checkSoundsReady(); // Still count as "loaded" to prevent hanging
+            });
+            
+            this.sounds.incorrect.addEventListener('error', (e) => {
+                console.warn('Could not load incorrect sound effect:', e);
+                checkSoundsReady(); // Still count as "loaded" to prevent hanging
+            });
+            
+            // Fallback timeout to mark sounds as ready
+            setTimeout(() => {
+                if (!this.soundsReady) {
+                    this.soundsReady = true;
+                    console.log('Sound loading timeout - proceeding without audio');
+                }
+            }, 3000);
+            
+        } catch (error) {
+            console.warn('Error initializing sounds:', error);
+            this.soundsReady = true; // Proceed without sounds
+        }
+    }
+    
+    async playSound(soundType) {
+        // Don't attempt to play if sounds aren't ready or don't exist
+        if (!this.soundsReady || !this.sounds[soundType]) {
+            return;
+        }
+        
+        try {
+            const audio = this.sounds[soundType];
+            
+            // Stop any currently playing instance
+            audio.pause();
+            audio.currentTime = 0;
+            
+            // Clone the audio to allow overlapping plays
+            const audioClone = audio.cloneNode();
+            audioClone.volume = audio.volume;
+            
+            // Attempt to play
+            const playPromise = audioClone.play();
+            
+            if (playPromise !== undefined) {
+                await playPromise.catch(error => {
+                    // Browser blocked autoplay - this is expected behavior
+                    if (error.name === 'NotAllowedError') {
+                        console.log('Audio autoplay blocked by browser (this is normal)');
+                    } else {
+                        console.warn('Error playing sound:', error);
+                    }
+                });
+            }
+        } catch (error) {
+            console.warn('Error in playSound:', error);
+        }
     }
     
     generateQuestions() {
@@ -144,6 +296,16 @@ class CivicQuiz {
     bindEvents() {
         const draggable = document.getElementById('draggable-service');
         const dropZones = document.querySelectorAll('.drop-zone');
+        
+        // Enable sounds on first user interaction
+        const enableSoundsOnce = () => {
+            this.enableSounds();
+            document.removeEventListener('click', enableSoundsOnce);
+            document.removeEventListener('touchstart', enableSoundsOnce);
+        };
+        
+        document.addEventListener('click', enableSoundsOnce);
+        document.addEventListener('touchstart', enableSoundsOnce);
         
         // Drag events
         draggable.addEventListener('dragstart', (e) => this.handleDragStart(e));
@@ -361,8 +523,33 @@ class CivicQuiz {
         // Visual feedback
         dropZone.classList.add(isCorrect ? 'correct-answer' : 'incorrect-answer');
         
+        // Play appropriate sound effect immediately
+        this.playSound(isCorrect ? 'correct' : 'incorrect');
+        
         // Show feedback message with next button
         this.showFeedback(isCorrect, currentQ.correct);
+    }
+    
+    // Add method to enable sound after user interaction
+    enableSounds() {
+        if (!this.soundsReady) return;
+        
+        // Play a silent sound to "unlock" audio context
+        try {
+            if (this.sounds.correct) {
+                const originalVolume = this.sounds.correct.volume;
+                this.sounds.correct.volume = 0;
+                this.sounds.correct.play().then(() => {
+                    this.sounds.correct.pause();
+                    this.sounds.correct.currentTime = 0;
+                    this.sounds.correct.volume = originalVolume;
+                }).catch(() => {
+                    // Ignore errors
+                });
+            }
+        } catch (error) {
+            // Ignore errors
+        }
     }
     
     disableInteractions() {
@@ -397,18 +584,26 @@ class CivicQuiz {
         const feedbackDiv = document.createElement('div');
         feedbackDiv.className = `feedback-message ${isCorrect ? 'correct' : 'incorrect'}`;
         
+        const currentQ = this.questions[this.currentQuestion];
+        const serviceName = currentQ.service;
+        
+        // Show correct/incorrect status
         if (isCorrect) {
-            feedbackDiv.textContent = '✅ Correct!';
+            feedbackDiv.textContent = '✅ Correct! ';
         } else {
-            feedbackDiv.textContent = `❌ Incorrect. The correct answer is ${correctAnswer}.`;
+            feedbackDiv.textContent = `❌ Incorrect. The correct answer is ${correctAnswer}. `;
+        }
+        
+        // Add the educational message if available
+        if (this.feedbackMessages[serviceName]) {
+            feedbackDiv.textContent += this.feedbackMessages[serviceName];
         }
         
         // Add educational context for environmental questions
-        const currentQ = this.questions[this.currentQuestion];
-        if (this.environmentalServices.some(env => env.service === currentQ.service)) {
+        if (this.environmentalServices.some(env => env.service === serviceName)) {
             const contextDiv = document.createElement('div');
             contextDiv.className = 'context-message';
-            contextDiv.textContent = this.getEnvironmentalContext(currentQ.service);
+            contextDiv.textContent = this.getEnvironmentalContext(serviceName);
             feedbackDiv.appendChild(contextDiv);
         }
         
@@ -495,9 +690,6 @@ class CivicQuiz {
         } else {
             badge.style.background = 'linear-gradient(135deg, #dc3545, #e83e8c)';
         }
-        
-        // Update share buttons with current results
-        this.updateShareContent();
     }
     
     async copyLink() {
