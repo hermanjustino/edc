@@ -152,7 +152,23 @@ class CivicQuiz {
         // Preload sounds and set volume
         this.initializeSounds();
         
+        // Track quiz start
+        this.trackEvent('quiz_started', {
+            event_category: 'engagement',
+            event_label: 'quiz_initialization'
+        });
+        
         this.init();
+    }
+    
+    // Add Google Analytics tracking method
+    trackEvent(eventName, parameters = {}) {
+        // Check if gtag is available (Google Analytics loaded)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, parameters);
+        } else {
+            console.log('Analytics event:', eventName, parameters);
+        }
     }
     
     initializeSounds() {
@@ -507,6 +523,19 @@ class CivicQuiz {
         const currentQ = this.questions[this.currentQuestion];
         const isCorrect = selectedAnswer === currentQ.correct;
         
+        // Track answer submission
+        this.trackEvent('quiz_answer', {
+            event_category: 'engagement',
+            event_label: currentQ.service,
+            custom_parameters: {
+                question_number: this.currentQuestion + 1,
+                service_name: currentQ.service,
+                user_answer: selectedAnswer,
+                correct_answer: currentQ.correct,
+                is_correct: isCorrect
+            }
+        });
+        
         // Store the answer
         this.userAnswers.push({
             question: currentQ.service,
@@ -690,6 +719,25 @@ class CivicQuiz {
         } else {
             badge.style.background = 'linear-gradient(135deg, #dc3545, #e83e8c)';
         }
+        
+        // Track quiz completion
+        this.trackEvent('quiz_completed', {
+            event_category: 'engagement',
+            event_label: 'quiz_finished',
+            value: this.score,
+            custom_parameters: {
+                final_score: this.score,
+                total_questions: this.questions.length,
+                score_percentage: Math.round((this.score / this.questions.length) * 100),
+                persona: persona.name
+            }
+        });
+        
+        // Track conversion goal
+        this.trackEvent('conversion', {
+            event_category: 'goal',
+            event_label: 'quiz_completion'
+        });
     }
     
     async copyLink() {
@@ -766,6 +814,16 @@ class CivicQuiz {
     }
     
     restart() {
+        // Track quiz restart
+        this.trackEvent('quiz_restarted', {
+            event_category: 'engagement',
+            event_label: 'quiz_restart',
+            custom_parameters: {
+                previous_score: this.score,
+                questions_answered: this.currentQuestion
+            }
+        });
+        
         this.currentQuestion = 0;
         this.score = 0;
         this.userAnswers = [];
