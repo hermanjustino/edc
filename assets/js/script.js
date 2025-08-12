@@ -3,15 +3,12 @@ class CivicQuiz {
         // Government services data from EDC CSV
         this.allServices = {
             Federal: [
-                { service: "Mail", emoji: "📮" },
+                { service: "Mail", emoji: "✉️" },
                 { service: "Currency", emoji: "🪙" },
                 { service: "Banking", emoji: "🏦" },
                 { service: "Shipping", emoji: "🚢" },
                 { service: "Airports", emoji: "🛫" },
-                { service: "Railways", emoji: "🚄" },
-                { service: "Pipelines", emoji: "🔧" },
-                { service: "Telephones", emoji: "📞" },
-                { service: "Federal Income Tax", emoji: "💰" },
+                { service: "Railways, Pipelines, Telephones", emoji: "🚄" },
                 { service: "Employment Insurance", emoji: "💼" },
                 { service: "Criminal Law", emoji: "⚖️" },
                 { service: "Aboriginal Lands and Rights", emoji: "📃" },
@@ -22,15 +19,11 @@ class CivicQuiz {
                 { service: "Education", emoji: "🎓" },
                 { service: "Healthcare", emoji: "🏥" },
                 { service: "Road Regulations", emoji: "🛣️" },
-                { service: "Driver's licenses", emoji: "🚗" },
                 { service: "Highways", emoji: "🛤️" },
                 { service: "Natural Resources", emoji: "💎" },
                 { service: "Property and Civil Rights", emoji: "👩🏻‍⚖️" },
                 { service: "Labour Standards", emoji: "👷🏻‍♂️" },
-                { service: "Minimum wage", emoji: "💵" },
-                { service: "Work safety", emoji: "🦺" },
-                { service: "Sales Tax", emoji: "💰" },
-                { service: "Provincial Income Tax", emoji: "📊" }
+                { service: "Housing", emoji: "🏠" },
             ],
             Municipal: [
                 { service: "Parks", emoji: "🌳" },
@@ -42,24 +35,12 @@ class CivicQuiz {
                 { service: "Water Services", emoji: "🚿" },
                 { service: "Local Police", emoji: "🚓" },
                 { service: "Fire Protection", emoji: "🚒" },
-                { service: "By-law Enforcement", emoji: "🔊" },
-                { service: "Waste Collection", emoji: "🗑️" }
             ]
         };
 
         // Environmental services (disputed/complex)
         this.environmentalServices = [
-            { service: "Oceans and fisheries", correct: "Federal", emoji: "🌊" },
-            { service: "Navigable waters", correct: "Federal", emoji: "⛵" },
-            { service: "Migratory birds", correct: "Federal", emoji: "🦅" },
-            { service: "International climate treaties", correct: "Federal", emoji: "🌍" },
-            { service: "Industrial pollution", correct: "Provincial", emoji: "🏭" },
-            { service: "Greenhouse gases", correct: "Provincial", emoji: "🌡️" },
-            { service: "Toxic substances", correct: "Provincial", emoji: "☠️" },
-            { service: "Water quality management", correct: "Provincial", emoji: "💧" },
-            { service: "Endangered species", correct: "Provincial", emoji: "🦎" },
-            { service: "Waste management policy", correct: "Provincial", emoji: "♻️" },
-            { service: "Zoning for natural heritage", correct: "Municipal", emoji: "🌿" }
+            { service: "Environment", correct: "Federal", emoji: "♻️" },
         ];
 
         // Generate quiz questions
@@ -98,46 +79,37 @@ class CivicQuiz {
         this.feedbackMessages = {
             // Federal services
             "Mail": "Canada Post is a Crown Corporation created by the Federal Government.",
-            "Currency": "Coins are produced by the Royal Canadian Mint. Bills are produced by the Canadian Bank Note Company based on the direction of the Bank of Canada, a crown corporation with considerable independence from the Federal Government.",
-            "Banking": "Decisions about money supply, lending to private banks and interest rates are made by the Bank of Canada, a crown corporation.  Banking regulations are set by the Federal Government.",
-            "Shipping": "When transportation crosses provincial and international borders it is usually regulated by the Federal Government - except for cars, trucks and highways.",
-            "Airports": "When transportation crosses provincial and international borders it is usually regulated by the Federal Government - except for cars, trucks and highways.",
-            "Railways": "Most infrastructure that crosses provincial borders is a federal responsibility.",
-            "Pipelines": "Most infrastructure that crosses provincial borders is a federal responsibility.",
-            "Telephones": "Most infrastructure that crosses provincial borders is a federal responsibility.",
-            "Federal Income Tax": "The Canada Revenue Agency collects federal income taxes.",
+            "Currency": "Coins are produced by the Royal Canadian Mint. Bills are produced by the Canadian Bank Note Company based on the direction of the Bank of Canada.",
+            "Banking": "Decisions about policy interest rates are made by the Bank of Canada, a crown corporation. Banking regulations are set by the federal government.",
+            "Shipping": "When transportation crosses provincial and international borders, it is usually regulated by the federal government - except for cars, trucks and highways.",
+            "Airports": "When transportation crosses provincial and international borders, it is usually regulated by the federal government - except for cars, trucks and highways.",
+            "Railways, Pipelines, Telephones": "Most infrastructure that crosses provincial borders is a federal responsibility.",
             "Employment Insurance": "The federal government also provides Old Age Security and regulates the Canada Pension Plan.",
-            "Criminal Law": "The Criminal Code of Canada is federal legislation.",
-            "Aboriginal Lands and Rights": "Canada has treaties with many Indigenous nations. Upholding these treaties is the responsibility of the federal government.  Some land in Canada, especially in British Columbia, is unceded. No treaties were ever signed and the Indigenous Title to this land is still in place.",
+            "Criminal Law": "Criminal law is the responsibility of the federal government. Property law and civil law are determined by the province.",
+            "Aboriginal Lands and Rights": "Upholding treaties with Indigenous nations is the responsibility of the federal government. Some land in Canada, especially in British Columbia, is unceded; no treaties were ever signed.",
             "Foreign Affairs": "International treaties on trade and other issues are negotiated and signed by the federal government.",
-            "National Defence": "Funding and maintaining national defence forces is a Federal Responsibility.  In 2025, the federal government pledged to gradually increase spending on national defence to 3.5% of GDP.  This will mean more than doubling defence spending from current levels.",
+            "National Defence": "Funding and maintaining national defence forces is a federal responsibility. In 2025, the federal government pledged to double defence spending.",
 
             // Provincial services
             "Education": "Provinces manage and fund the education system, including colleges and universities. In 2025, the Ontario government has been displaying their power over education by seizing control of local school boards throughout the province.",
             "Healthcare": "Healthcare policy and funding are a provincial responsibility, but some costs are covered by the federal government in the form of Canada Health Transfer payments. You can learn more about healthcare policy from the Ontario Nurses Association, the Ontario Health Coalition or the Canadian Association of Physicians for the Environment.",
             "Road Regulations": "Provincial governments set the rules of the road and issue drivers licenses.",
-            "Driver's licenses": "Driver's licenses are issued by provincial governments.",
-            "Highways": "Provincial governments fund and maintain larger highways.  Ontario's proposed Highway 413 will cost over 7 Billion to build and pave over 2000 acres of farmland, including 400 acres of the Greenbelt.",
             "Natural Resources": "Rules around mining and extraction are set by provincial governments. These policies impact the economy and the environment and provincial revenues.  The non-partisan group Reform Gravel Mining argues that Ontario has licensed far more quarries and gravel pits than we need.",
             "Property and Civil Rights": "Property law and civil law are determined by the province. Criminal law is the responsibility of the federal government.",
             "Labour Standards": "Work safety rules and minimum wage are set by the provincial government.",
-            "Minimum wage": "Each province sets its own minimum wage rates.",
-            "Work safety": "Workplace safety regulations are managed by provincial governments.",
-            "Sales Tax": "Provincial sales tax (PST) is set and collected by provinces.",
-            "Provincial Income Tax": "Provincial income tax rates are set by each province.",
+            "Highways": "Provincial governments fund and maintain highways. Ontario's proposed Highway 413 will cost over $7 billion and pave over 2000 acres of farmland, including 400 acres of the Greenbelt.",
+            "Housing": "Most housing policy is set by the provincial government. The municipal government decides where homes can be built and sets some fees. The federal government provides some funding and loans for affordable housing.",
 
             // Municipal services
-            "Parks": "Local parks are typically owned and maintained by municipal governments.",
-            "Libraries": "Libraries offer a lot more than books!  Check with your local library to learn about classes, talks, computer and tool access and more!",
-            "Local Roads": "Low-density housing tends to drive up property taxes because of the high cost of installing new infrastructure that can't be shared by a large number of residents.",
-            "Parking": "As land and housing costs continue to increase, some urban planners are starting to wonder how much it actually costs to offer so much on-street parking.  'The High Cost of Free Parking' by Donald Shoup is a detailed examination of this issue.",
-            "Public Transportation": "Public transportation is funded and maintained by municipal governments and regional agency like GO transit and Metrolinx, but projects often receive funding from federal and provincial governments.",
-            "Local Land Use (zoning)": "The province sets many of the rules around land-use, but municipalities can define and map zoning. Did you know that zoning which allows only single-family homes drives up property taxes because there are fewer people to share the cost of maintaining infrastructure?",
+            "Parks": "Most parks are created and maintained by municipal governments. However, there are also national and provincial parks.",
+            "Libraries": "Libraries offer a lot more than books. Check with your local library to learn about classes, speakers, computer and tool access and more!",
+            "Local Roads": "Sprawl housing tends to increase property taxes because the cost of new roads and pipes can't be shared by a large number of residents.",
+            "Parking": "On-street parking and some parking lots are maintained by the municipality. As land costs continue to rise, some urban planners are concerned about the opportunity costs of on-street parking.",
+            "Public Transportation": "Public transportation is funded and maintained by municipal governments and regional agencies like GO transit and Metrolinx, but projects often receive funding from federal and provincial governments.",
+            "Local Land Use (zoning)": "The province sets many of the rules around land-use, but municipalities can define and map zoning. Some planners worry that neighbourhoods zoned only for single-family homes are creating a housing shortage.",
             "Water Services": "Low-density housing tends to drive up property taxes and utilities because the cost of maintaining infrastructure must be shared between a small number of residents.",
-            "Local Police": "Local police forces are funded and overseen by municipal governments.",
-            "Fire Protection": "Fire departments are typically municipal services.",
-            "By-law Enforcement": "Local bylaws and their enforcement are municipal responsibilities.",
-            "Waste Collection": "Garbage and recycling collection are municipal services."
+            "Local Police": " ",
+            "Fire Protection": " ",
         };
         
         // Initialize sound effects
@@ -676,17 +648,7 @@ class CivicQuiz {
     
     getEnvironmentalContext(service) {
         const contexts = {
-            "Oceans and fisheries": "Federal government manages Canada's ocean resources and fisheries under the Fisheries Act.",
-            "Navigable waters": "Federal jurisdiction covers waters that can be used for shipping and navigation.",
-            "Migratory birds": "Birds that cross provincial/international boundaries fall under federal protection.",
-            "International climate treaties": "Only federal government can sign international agreements like the Paris Climate Accord.",
-            "Industrial pollution": "Provinces regulate most industrial emissions and pollution within their borders.",
-            "Greenhouse gases": "Provincial governments set most emission standards and carbon pricing policies.",
-            "Toxic substances": "Provinces manage most toxic waste and hazardous materials within their jurisdiction.",
-            "Water quality management": "Provinces are responsible for water quality standards and testing.",
-            "Endangered species": "Provincial governments manage most wildlife and species protection programs.",
-            "Waste management policy": "Provinces set policies for waste management and recycling programs.",
-            "Zoning for natural heritage": "Municipal governments control local land use and zoning decisions."
+            "Environment": "TRICK QUESTION - The environment, as we understand it today, falls into several areas of jurisdiction. The federal government looks after migratory birds, oceans and fisheries and the provincial government handles industrial pollution and other endangered species.  Learn more here [https://www.constitutionalstudies.ca/2024/10/environmental-jurisdiction/].",
         };
         return contexts[service] || "Environmental responsibilities often overlap between government levels.";
     }
