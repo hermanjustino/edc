@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Happiness Rankings</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 700px;
+            max-width: 90%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-weight: 700;
+            font-size: 2.2em;
+        }
+        
+        .chart-container {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .chart-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .country {
+            width: 140px;
+            text-align: right;
+            padding-right: 20px;
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        
+        .flag {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .bar-container {
+            flex-grow: 1;
+            height: 40px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 8px;
+            position: relative;
+            transition: width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .score {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 700;
+            font-size: 1.2em;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.5s ease 1s;
+        }
+        
+        .emoji {
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            opacity: 0;
+            transition: opacity 1s ease 1.5s, transform 1s ease 1.5s;
+        }
+        
+        .max-scale {
+            position: absolute;
+            right: 10px;
+            bottom: -15px;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+        
+        .scale-markers {
+            position: absolute;
+            bottom: -5px;
+            left: 140px;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .marker {
+            width: 1px;
+            height: 5px;
+            background-color: #bdc3c7;
+        }
+        
+        .marker-label {
+            position: absolute;
+            bottom: -25px;
+            transform: translateX(-50%);
+            color: #95a5a6;
+            font-size: 0.8em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 40px;
+            font-size: 1em;
+            font-style: italic;
+        }
+        
+        /* Finland */
+        .finland .bar {
+            background: linear-gradient(90deg, #2980b9, #3498db);
+        }
+        
+        /* Canada */
+        .canada .bar {
+            background: linear-gradient(90deg, #c0392b, #e74c3c);
+        }
+        
+        /* United States */
+        .usa .bar {
+            background: linear-gradient(90deg, #2c3e50, #34495e);
+        }
+        
+        .watermark {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            color: #bdc3c7;
+            font-size: 0.8em;
+            font-style: italic;
+        }
+        
+        /* Wallet return rate visualization styles */
+        .section-divider {
+            width: 100%;
+            border-top: 1px solid #e0e0e0;
+            margin: 60px 0 40px 0;
+        }
+        
+        .wallet-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 700px;
+            max-width: 90%;
+            position: relative;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+        
+        .wallet-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-weight: 700;
+            font-size: 2em;
+        }
+        
+        .wallet-subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .wallet-chart-container {
+            position: relative;
+            padding: 20px 0;
+            height: 200px;
+        }
+        
+        .wallet-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            height: 60px;
+            position: relative;
+        }
+        
+        .wallet-label {
+            width: 180px;
+            text-align: right;
+            padding-right: 20px;
+            font-weight: 600;
+            font-size: 1em;
+            color: #2c3e50;
+        }
+        
+        .wallet-bar-container {
+            flex-grow: 1;
+            height: 40px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .wallet-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 8px;
+            position: relative;
+            transition: width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+        }
+        
+        .perceived-bar {
+            background: linear-gradient(90deg, #95a5a6, #7f8c8d);
+        }
+        
+        .actual-bar {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+        }
+        
+        .wallet-percentage {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.5s ease 1s;
+        }
+        
+        .wallet-icon {
+            position: absolute;
+            right: -45px;
+            font-size: 30px;
+            opacity: 0;
+            transition: opacity 1s ease 1.5s, transform 1s ease 1.5s;
+        }
+        
+        .result-description {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 40px;
+            padding: 15px;
+            background-color: #e8f6f3;
+            border-radius: 10px;
+            border-left: 5px solid #27ae60;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        
+        .highlight {
+            font-weight: 700;
+            color: #16a085;
+        }
+        
+        .wallet-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            padding: 0 0 0 180px;
+            color: #95a5a6;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Global Happiness Rankings</h1>
+        
+        <div class="chart-container">
+            <div class="chart-row finland">
+                <div class="country">
+                    <img src="https://flagcdn.com/w80/fi.png" alt="Finland" class="flag">
+                    Finland
+                </div>
+                <div class="bar-container">
+                    <div class="bar" data-score="7.7">
+                        <span class="score">7.7</span>
+                    </div>
+                    <span class="emoji">😊</span>
+                </div>
+            </div>
+            
+            <div class="chart-row canada">
+                <div class="country">
+                    <img src="https://flagcdn.com/w80/ca.png" alt="Canada" class="flag">
+                    Canada
+                </div>
+                <div class="bar-container">
+                    <div class="bar" data-score="6.8">
+                        <span class="score">6.8</span>
+                    </div>
+                    <span class="emoji">🙂</span>
+                </div>
+            </div>
+            
+            <div class="chart-row usa">
+                <div class="country">
+                    <img src="https://flagcdn.com/w80/us.png" alt="United States" class="flag">
+                    United States
+                </div>
+                <div class="bar-container">
+                    <div class="bar" data-score="6.7">
+                        <span class="score">6.7</span>
+                    </div>
+                    <span class="emoji">🙂</span>
+                </div>
+            </div>
+            
+            <div class="scale-markers">
+                <div class="marker" style="left: 0%"><span class="marker-label">0</span></div>
+                <div class="marker" style="left: 10%"><span class="marker-label">1</span></div>
+                <div class="marker" style="left: 20%"><span class="marker-label">2</span></div>
+                <div class="marker" style="left: 30%"><span class="marker-label">3</span></div>
+                <div class="marker" style="left: 40%"><span class="marker-label">4</span></div>
+                <div class="marker" style="left: 50%"><span class="marker-label">5</span></div>
+                <div class="marker" style="left: 60%"><span class="marker-label">6</span></div>
+                <div class="marker" style="left: 70%"><span class="marker-label">7</span></div>
+                <div class="marker" style="left: 80%"><span class="marker-label">8</span></div>
+                <div class="marker" style="left: 90%"><span class="marker-label">9</span></div>
+                <div class="marker" style="left: 100%"><span class="marker-label">10</span></div>
+            </div>
+        </div>
+        
+        <p class="subtitle">Source: World Happiness Report</p>
+        <div class="watermark">Environmental Defence Canada</div>
+    </div>
+    
+    <div class="section-divider"></div>
+    
+    <!-- Wallet Return Rate Visualization -->
+    <div class="wallet-container">
+        <h2 class="wallet-title">Wallet Return Rate in Toronto</h2>
+        <p class="wallet-subtitle">Perception vs. Reality</p>
+        
+        <div class="wallet-chart-container">
+            <div class="wallet-row">
+                <div class="wallet-label">What people expected:</div>
+                <div class="wallet-bar-container">
+                    <div class="wallet-bar perceived-bar" data-percentage="25">
+                        <span class="wallet-percentage">25%</span>
+                    </div>
+                    <span class="wallet-icon">💭</span>
+                </div>
+            </div>
+            
+            <div class="wallet-row">
+                <div class="wallet-label">Actual return rate:</div>
+                <div class="wallet-bar-container">
+                    <div class="wallet-bar actual-bar" data-percentage="80">
+                        <span class="wallet-percentage">80%</span>
+                    </div>
+                    <span class="wallet-icon">👛</span>
+                </div>
+            </div>
+            
+            <div class="wallet-scale">
+                <span>0%</span>
+                <span>20%</span>
+                <span>40%</span>
+                <span>60%</span>
+                <span>80%</span>
+                <span>100%</span>
+            </div>
+        </div>
+        
+        <div class="result-description" id="wallet-result">
+            People in Toronto <span class="highlight">underestimated honesty by 55%</span>. Scientists actually dropped wallets around the city and <span class="highlight">8 out of 10</span> were returned to their owners!
+        </div>
+        
+        <p class="subtitle">Source: Science Magazine, 2019</p>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // First animation: Happiness rankings
+            setTimeout(() => {
+                const bars = document.querySelectorAll('.bar');
+                
+                bars.forEach(bar => {
+                    const score = parseFloat(bar.getAttribute('data-score'));
+                    const width = (score / 10) * 100;
+                    bar.style.width = width + '%';
+                    
+                    const scoreElement = bar.querySelector('.score');
+                    scoreElement.style.opacity = 1;
+                    
+                    const emojiElement = bar.parentNode.querySelector('.emoji');
+                    emojiElement.style.opacity = 1;
+                    emojiElement.style.transform = 'translateY(-50%) scale(1.2)';
+                    setTimeout(() => {
+                        emojiElement.style.transform = 'translateY(-50%) scale(1)';
+                    }, 300);
+                });
+            }, 500);
+            
+            // Second animation: Wallet return rates
+            setTimeout(() => {
+                // First show perception
+                const perceivedBar = document.querySelector('.perceived-bar');
+                const perceivedPercentage = parseInt(perceivedBar.getAttribute('data-percentage'));
+                perceivedBar.style.width = perceivedPercentage + '%';
+                
+                const perceivedLabel = perceivedBar.querySelector('.wallet-percentage');
+                perceivedLabel.style.opacity = 1;
+                
+                const perceivedIcon = perceivedBar.parentNode.querySelector('.wallet-icon');
+                perceivedIcon.style.opacity = 1;
+                
+                // Then after a delay, reveal actual results
+                setTimeout(() => {
+                    const actualBar = document.querySelector('.actual-bar');
+                    const actualPercentage = parseInt(actualBar.getAttribute('data-percentage'));
+                    actualBar.style.width = actualPercentage + '%';
+                    
+                    const actualLabel = actualBar.querySelector('.wallet-percentage');
+                    actualLabel.style.opacity = 1;
+                    
+                    const actualIcon = actualBar.parentNode.querySelector('.wallet-icon');
+                    actualIcon.style.opacity = 1;
+                    
+                    // Show result description
+                    setTimeout(() => {
+                        const resultDescription = document.getElementById('wallet-result');
+                        resultDescription.style.opacity = 1;
+                        resultDescription.style.transform = 'translateY(0)';
+                    }, 800);
+                    
+                }, 1500); // Delay showing actual results
+                
+            }, 2500); // Start wallet animation after happiness animation
+        });
+    </script>
+</body>
+</html>
