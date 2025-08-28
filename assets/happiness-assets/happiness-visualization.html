@@ -301,6 +301,155 @@
             color: #95a5a6;
             font-size: 0.8em;
         }
+        
+        /* Impact Factor Visualization Styles */
+        .impact-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 700px;
+            max-width: 90%;
+            position: relative;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+        
+        .impact-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 2em;
+        }
+        
+        .impact-subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        
+        .happiness-meter {
+            background: #f5f7fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .happiness-level {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .happiness-score {
+            font-size: 3em;
+            font-weight: 700;
+            color: #2c3e50;
+            transition: all 0.8s ease;
+            margin-right: 20px;
+        }
+        
+        .happiness-emoji {
+            font-size: 3.5em;
+            transition: all 0.5s ease;
+        }
+        
+        .happiness-bar-container {
+            height: 12px;
+            background-color: #ecf0f1;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .happiness-bar {
+            height: 100%;
+            width: 70%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 6px;
+            transition: width 0.8s ease-out;
+        }
+        
+        .impact-factor {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f8f9ff;
+            transition: all 0.5s ease;
+            display: flex;
+            align-items: center;
+            min-height: 120px;
+        }
+        
+        .impact-icon {
+            font-size: 2.5em;
+            margin-right: 20px;
+            transition: all 0.5s ease;
+        }
+        
+        .impact-text {
+            flex: 1;
+        }
+        
+        .impact-title-text {
+            font-weight: 700;
+            font-size: 1.3em;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .impact-description {
+            color: #7f8c8d;
+            line-height: 1.5;
+        }
+        
+        .impact-value {
+            font-weight: 700;
+            font-size: 1.5em;
+            width: 100px;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+        
+        .positive {
+            color: #27ae60;
+        }
+        
+        .negative {
+            color: #e74c3c;
+        }
+        
+        .impact-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .control-btn {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background: #2c5aa0;
+        }
+        
+        .impact-note {
+            text-align: center;
+            font-size: 0.8em;
+            color: #95a5a6;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -411,6 +560,41 @@
         <p class="subtitle">Source: Science Magazine, 2019</p>
     </div>
     
+    <div class="section-divider"></div>
+    
+    <!-- Impact Factor Visualization -->
+    <div class="impact-container">
+        <h2 class="impact-title">Life Events & Happiness Impact</h2>
+        <p class="impact-subtitle">How different factors affect your happiness score</p>
+        
+        <div class="happiness-meter">
+            <div class="happiness-level">
+                <div class="happiness-score" id="happiness-score">7.0</div>
+                <div class="happiness-emoji" id="happiness-emoji">😊</div>
+            </div>
+            <div class="happiness-bar-container">
+                <div class="happiness-bar" id="happiness-bar"></div>
+            </div>
+        </div>
+        
+        <div class="impact-factor" id="impact-factor">
+            <div class="impact-icon" id="impact-icon">💼</div>
+            <div class="impact-text">
+                <div class="impact-title-text" id="impact-title">Job Loss</div>
+                <div class="impact-description" id="impact-description">Losing your job has a significant negative impact on happiness.</div>
+            </div>
+            <div class="impact-value negative" id="impact-value">-0.5</div>
+        </div>
+        
+        <div class="impact-controls">
+            <button class="control-btn" id="prev-impact">Previous</button>
+            <button class="control-btn" id="next-impact">Next</button>
+            <button class="control-btn" id="play-pause">Pause</button>
+        </div>
+        
+        <p class="impact-note">*Based on research from the World Happiness Report</p>
+    </div>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // First animation: Happiness rankings
@@ -470,6 +654,148 @@
                 
             }, 2500); // Start wallet animation after happiness animation
         });
+        
+        // Third animation: Impact factors
+        const impactFactors = [
+            {
+                title: "Job Loss",
+                description: "Losing your job has a significant negative impact on happiness.",
+                value: -0.5,
+                icon: "💼",
+                class: "negative"
+            },
+            {
+                title: "Doubling Income",
+                description: "Surprisingly, doubling your income only slightly increases happiness.",
+                value: 0.1,
+                icon: "💰",
+                class: "positive"
+            },
+            {
+                title: "Volunteering & Charity",
+                description: "Helping others through good deeds significantly boosts happiness.",
+                value: 0.5,
+                icon: "🤲",
+                class: "positive"
+            },
+            {
+                title: "Wallet Return Trust",
+                description: "Believing your lost wallet will be returned has the biggest positive impact!",
+                value: 0.7,
+                icon: "👛",
+                class: "positive"
+            }
+        ];
+        
+        let currentImpactIndex = 0;
+        let baseHappiness = 7.0;
+        let isPlaying = true;
+        let animationTimer;
+        
+        function updateImpactDisplay(index) {
+            const factor = impactFactors[index];
+            const impactIcon = document.getElementById('impact-icon');
+            const impactTitle = document.getElementById('impact-title');
+            const impactDescription = document.getElementById('impact-description');
+            const impactValue = document.getElementById('impact-value');
+            
+            // First fade out current content
+            document.getElementById('impact-factor').style.opacity = 0;
+            
+            setTimeout(() => {
+                // Update content
+                impactIcon.textContent = factor.icon;
+                impactTitle.textContent = factor.title;
+                impactDescription.textContent = factor.description;
+                impactValue.textContent = factor.value >= 0 ? `+${factor.value}` : factor.value;
+                impactValue.className = `impact-value ${factor.class}`;
+                
+                // Fade back in
+                document.getElementById('impact-factor').style.opacity = 1;
+                
+                // Update happiness score
+                updateHappinessScore(baseHappiness + factor.value);
+            }, 500);
+        }
+        
+        function updateHappinessScore(score) {
+            const scoreElement = document.getElementById('happiness-score');
+            const emojiElement = document.getElementById('happiness-emoji');
+            const barElement = document.getElementById('happiness-bar');
+            
+            // Update the score with animation
+            scoreElement.textContent = score.toFixed(1);
+            
+            // Update the bar width (scale from 0-10)
+            barElement.style.width = `${(score / 10) * 100}%`;
+            
+            // Update the emoji based on score
+            if (score >= 7.5) {
+                emojiElement.textContent = "😄";
+            } else if (score >= 7.3) {
+                emojiElement.textContent = "😊";
+            } else if (score >= 7) {
+                emojiElement.textContent = "🙂";
+            } else if (score >= 6) {
+                emojiElement.textContent = "😐";
+            } else {
+                emojiElement.textContent = "☹️";
+            }
+        }
+        
+        function nextImpact() {
+            currentImpactIndex = (currentImpactIndex + 1) % impactFactors.length;
+            updateImpactDisplay(currentImpactIndex);
+        }
+        
+        function prevImpact() {
+            currentImpactIndex = (currentImpactIndex - 1 + impactFactors.length) % impactFactors.length;
+            updateImpactDisplay(currentImpactIndex);
+        }
+        
+        function startImpactAnimation() {
+            updateImpactDisplay(currentImpactIndex);
+            
+            // Auto-advance every 4 seconds if playing
+            animationTimer = setInterval(() => {
+                if (isPlaying) {
+                    nextImpact();
+                }
+            }, 4000);
+        }
+        
+        // Initialize impact visualization after wallet visualization
+        setTimeout(() => {
+            startImpactAnimation();
+            
+            // Setup control buttons
+            document.getElementById('next-impact').addEventListener('click', () => {
+                nextImpact();
+                // Reset the auto-advance timer when manually advancing
+                clearInterval(animationTimer);
+                animationTimer = setInterval(() => {
+                    if (isPlaying) {
+                        nextImpact();
+                    }
+                }, 4000);
+            });
+            
+            document.getElementById('prev-impact').addEventListener('click', () => {
+                prevImpact();
+                // Reset the auto-advance timer when manually advancing
+                clearInterval(animationTimer);
+                animationTimer = setInterval(() => {
+                    if (isPlaying) {
+                        nextImpact();
+                    }
+                }, 4000);
+            });
+            
+            document.getElementById('play-pause').addEventListener('click', function() {
+                isPlaying = !isPlaying;
+                this.textContent = isPlaying ? "Pause" : "Play";
+            });
+        }, 5000); // Start after the wallet animation completes
     </script>
 </body>
 </html>
