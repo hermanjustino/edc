@@ -730,9 +730,11 @@
             barElement.style.width = `${(score / 10) * 100}%`;
             
             // Update the emoji based on score
-            if (score >= 7.5) {
+            if (score >= 7.6) {
+                emojiElement.textContent = "😁";
+            } else if (score >= 7.5) {
                 emojiElement.textContent = "😄";
-            } else if (score >= 7.3) {
+            }else if (score >= 7.3) {
                 emojiElement.textContent = "😊";
             } else if (score >= 7) {
                 emojiElement.textContent = "🙂";
