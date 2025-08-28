@@ -91,8 +91,8 @@ class CivicQuiz {
             "National Defence": "Funding and maintaining national defence forces is a federal responsibility. In 2025, the federal government pledged to double defence spending.",
 
             // Provincial services
-            "Education": "Provinces manage and fund the education system, including colleges and universities. In 2025, the Ontario government has been displaying their power over education by seizing control of local school boards throughout the province.",
-            "Healthcare": "Healthcare policy and funding are a provincial responsibility, but some costs are covered by the federal government in the form of Canada Health Transfer payments. You can learn more about healthcare policy from the Ontario Nurses Association, the Ontario Health Coalition or the Canadian Association of Physicians for the Environment.",
+            "Education": "Provinces manage and fund the education system, including colleges and universities. In 2025, the Ontario government has been using their power in this area to seize control of local school boards.",
+            "Healthcare": "Healthcare is a provincial responsibility, but federal transfer payments cover some costs. The Ontario Health Coalition advocates for better public healthcare.",
             "Road Regulations": "Provincial governments set the rules of the road and issue drivers licenses.",
             "Natural Resources": "Rules around mining and extraction are set by provincial governments. These policies impact the economy and the environment and provincial revenues.  The non-partisan group Reform Gravel Mining argues that Ontario has licensed far more quarries and gravel pits than we need.",
             "Property and Civil Rights": "Property law and civil law are determined by the province. Criminal law is the responsibility of the federal government.",
@@ -106,7 +106,7 @@ class CivicQuiz {
             "Local Roads": "Sprawl housing tends to increase property taxes because the cost of new roads and pipes can't be shared by a large number of residents.",
             "Parking": "On-street parking and some parking lots are maintained by the municipality. As land costs continue to rise, some urban planners are concerned about the opportunity costs of on-street parking.",
             "Public Transportation": "Public transportation is funded and maintained by municipal governments and regional agencies like GO transit and Metrolinx, but projects often receive funding from federal and provincial governments.",
-            "Local Land Use (zoning)": "The province sets many of the rules around land-use, but municipalities can define and map zoning. Some planners worry that neighbourhoods zoned only for single-family homes are creating a housing shortage.",
+            "Local Land Use (zoning)": "The province sets land-use rules at a high level and municipalities actually map out zoning. Some planners worry that neighbourhoods zoned only for single-family homes are creating a housing shortage.",
             "Water Services": "Low-density housing tends to drive up property taxes and utilities because the cost of maintaining infrastructure must be shared between a small number of residents.",
             "Local Police": " ",
             "Fire Protection": " ",
@@ -602,10 +602,8 @@ class CivicQuiz {
         
         // Add educational context for environmental questions
         if (this.environmentalServices.some(env => env.service === serviceName)) {
-            const contextDiv = document.createElement('div');
-            contextDiv.className = 'context-message';
-            contextDiv.textContent = this.getEnvironmentalContext(serviceName);
-            feedbackDiv.appendChild(contextDiv);
+            const contextElement = this.getEnvironmentalContext(serviceName);
+            feedbackDiv.appendChild(contextElement);
         }
         
         // Add next button
@@ -648,9 +646,42 @@ class CivicQuiz {
     
     getEnvironmentalContext(service) {
         const contexts = {
-            "Environment": "TRICK QUESTION - The environment, as we understand it today, falls into several areas of jurisdiction. The federal government looks after migratory birds, oceans and fisheries and the provincial government handles industrial pollution and other endangered species.  Learn more here [https://www.constitutionalstudies.ca/2024/10/environmental-jurisdiction/].",
+            "Environment": "TRICK QUESTION - The environment, as we understand it today, falls into several areas of jurisdiction. The federal government looks after migratory birds, oceans and fisheries and the provincial government handles industrial pollution and other endangered species. ",
         };
-        return contexts[service] || "Environmental responsibilities often overlap between government levels.";
+        
+        // Create the context div
+        const contextDiv = document.createElement('div');
+        contextDiv.className = 'context-message';
+        
+        // For Environment service, add the base text + link
+        if (service === "Environment") {
+            // Clear any existing content
+            contextDiv.innerHTML = '';
+            
+            // Get the base text
+            const baseText = contexts[service] || "Environmental responsibilities often overlap between government levels.";
+            
+            // Create a text node for the base text instead of using textContent
+            const textNode = document.createTextNode(baseText);
+            contextDiv.appendChild(textNode);
+            
+            // Add a space before the link
+            contextDiv.appendChild(document.createTextNode(" "));
+            
+            // Create and append the link
+            const learnMoreLink = document.createElement('a');
+            learnMoreLink.href = "https://www.constitutionalstudies.ca/2024/10/environmental-jurisdiction/";
+            learnMoreLink.textContent = "Learn more here";
+            learnMoreLink.target = "_blank"; // Open in new tab
+            learnMoreLink.className = "learn-more-link";
+            
+            contextDiv.appendChild(learnMoreLink);
+        } else {
+            // For other services, just use the text
+            contextDiv.textContent = contexts[service] || "Environmental responsibilities often overlap between government levels.";
+        }
+        
+        return contextDiv;
     }
     
     showResults() {

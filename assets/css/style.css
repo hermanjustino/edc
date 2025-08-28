@@ -503,12 +503,32 @@ header p {
 .context-message {
     margin-top: 8px;
     padding: 6px;
-    background: rgba(255, 255, 255, 0.9);
     border-radius: 4px;
     font-size: 0.75rem;
     font-style: italic;
     color: #555;
     line-height: 1.4;
+}
+
+.learn-more-link {
+    display: inline;
+    color: #2c5aa0;
+    font-weight: 600;
+    text-decoration: underline;
+    margin-left: 0;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    font-style: normal; /* Reset italic from parent */
+}
+
+.learn-more-link:hover {
+    color: #4a90e2;
+    text-decoration: underline;
+}
+
+.learn-more-link:focus {
+    outline: 2px solid #4a90e2;
+    outline-offset: 2px;
 }
 
 .next-btn {
