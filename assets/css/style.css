@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Gotham:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gotham:wght@300;400;700&display=swap');
 
 /* Custom font face for Boldonse */
 @font-face {
     font-family: 'Boldonse';
-    src: url('../fonts/Boldonse.woff2') format('woff2'),
-         url('../fonts/Boldonse.woff') format('woff'),
-         url('../fonts/Boldonse.ttf') format('truetype');
-    font-weight: normal;
+    src: url('../fonts/Boldonse-Regular.ttf') format('truetype');
+    font-weight:lighter;
     font-style: normal;
     font-display: swap;
 }
@@ -19,11 +17,12 @@
 
 html, body {
     height: 100vh;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Gotham', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 300; /* Set light as default weight */
     background: linear-gradient(135deg, #008C7A 0%, #006b5d 100%);
     min-height: 100vh;
     display: flex;

@@ -493,7 +493,9 @@ class CivicQuiz {
         this.disableInteractions();
         
         const currentQ = this.questions[this.currentQuestion];
-        const isCorrect = selectedAnswer === currentQ.correct;
+        
+        // Special case: Environment is correct for all government levels
+        const isCorrect = currentQ.service === "Environment" ? true : selectedAnswer === currentQ.correct;
         
         // Track answer submission
         this.trackEvent('quiz_answer', {
@@ -503,7 +505,7 @@ class CivicQuiz {
                 question_number: this.currentQuestion + 1,
                 service_name: currentQ.service,
                 user_answer: selectedAnswer,
-                correct_answer: currentQ.correct,
+                correct_answer: currentQ.service === "Environment" ? "All levels" : currentQ.correct,
                 is_correct: isCorrect
             }
         });
@@ -512,7 +514,7 @@ class CivicQuiz {
         this.userAnswers.push({
             question: currentQ.service,
             userAnswer: selectedAnswer,
-            correctAnswer: currentQ.correct,
+            correctAnswer: currentQ.service === "Environment" ? "All levels" : currentQ.correct,
             isCorrect: isCorrect
         });
         
@@ -528,7 +530,7 @@ class CivicQuiz {
         this.playSound(isCorrect ? 'correct' : 'incorrect');
         
         // Show feedback message with next button
-        this.showFeedback(isCorrect, currentQ.correct);
+        this.showFeedback(isCorrect, currentQ.service === "Environment" ? selectedAnswer : currentQ.correct);
     }
     
     // Add method to enable sound after user interaction
@@ -646,7 +648,7 @@ class CivicQuiz {
     
     getEnvironmentalContext(service) {
         const contexts = {
-            "Environment": "TRICK QUESTION - The environment, as we understand it today, falls into several areas of jurisdiction. The federal government looks after migratory birds, oceans and fisheries and the provincial government handles industrial pollution and other endangered species. ",
+            "Environment": "TRICK QUESTION - The federal, provincial, and municipal governments all have important roles in environmental protection and regulation.",
         };
         
         // Create the context div
