@@ -3,7 +3,7 @@
 ## Boldonse
 - Used for: Main header (h1)
 - Location: Place font files in this directory
-- Required formats: .woff2, .woff, .ttf
+- Required formats: .ttf
 
 ## Gotham Bold
 - Used for: All subheadings (h2, h3)
@@ -12,9 +12,7 @@
 
 ## Font Files Needed
 Place these files in the `/assets/fonts/` directory:
-- Boldonse.woff2
-- Boldonse.woff  
-- Boldonse.ttf
+- Boldonse-Regular.ttf
 
 ## Installation
 1. Add font files to `/assets/fonts/` directory
