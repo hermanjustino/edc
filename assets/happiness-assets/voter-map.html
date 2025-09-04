@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ontario Voter Data Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* Basic page and map styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        .map-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            padding: 24px 24px 0 24px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 18px;
+            color: #2c3e50;
+        }
+        .filter-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 12px;
+        }
+        .filter-bar label {
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        #riding-filter {
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+        #map {
+            width: 100%;
+            height: 540px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+        }
+        /* Custom marker icon legend */
+        .legend {
+            background: white;
+            padding: 8px 14px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            font-size: 0.95em;
+            position: absolute;
+            bottom: 18px;
+            left: 18px;
+            z-index: 1000;
+        }
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 16px;
+        }
+        .legend-icon {
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            margin-right: 6px;
+            border-radius: 50%;
+        }
+        .legend-federal {
+            background: #2c5aa0;
+        }
+        .legend-provincial {
+            background: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="map-container">
+        <h1>Ontario Voter Data Map</h1>
+        <div class="filter-bar">
+            <label for="riding-filter">Show:</label>
+            <select id="riding-filter">
+                <option value="all">All</option>
+                <option value="federal">Federal</option>
+                <option value="provincial">Provincial</option>
+            </select>
+        </div>
+        <div id="map"></div>
+        <div class="legend">
+            <span><span class="legend-icon legend-federal"></span>Federal Riding</span>
+            <span><span class="legend-icon legend-provincial"></span>Provincial Riding</span>
+        </div>
+    </div>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+    // --- filepath: /Users/hermanjustino/Documents/projects/artworksto/EnvironmentalDefenceCanada/edc-products/assets/happiness-assets/voter-map.html ---
+    // --- Leaflet Map Setup Skeleton ---
+
+    // 1. Initialize the map centered on Ontario
+    // Example: Toronto coordinates [43.7, -79.4], zoom 6-7 for Ontario
+    const map = L.map('map').setView([44.0, -79.5], 6.5);
+
+    // 2. Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // 3. Define custom marker icons for federal and provincial ridings
+    const federalIcon = L.icon({
+        iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-blue.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+        shadowSize: [41, 41]
+    });
+    const provincialIcon = L.icon({
+        iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-green.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+        shadowSize: [41, 41]
+    });
+
+    // 4. Placeholder: Voter data for 8 ridings (replace with real data)
+    // Each object: {lat, lng, name, type, voteDiff, pctDiff, turnout, winner, runnerUp, nonVoters, electionType}
+    const ridings = [
+        // Example:
+        // {
+        //   lat: 43.6532, lng: -79.3832, name: "Toronto Centre", type: "federal",
+        //   voteDiff: 5000, pctDiff: "12%", turnout: "62%", winner: "Liberal", runnerUp: "NDP",
+        //   nonVoters: 20000, electionType: "Federal"
+        // },
+        // ...7 more
+    ];
+
+    // 5. Create LayerGroups for federal and provincial markers
+    const federalLayer = L.layerGroup();
+    const provincialLayer = L.layerGroup();
+
+    // 6. Add markers to LayerGroups with popups
+    ridings.forEach(riding => {
+        const marker = L.marker([riding.lat, riding.lng], {
+            icon: riding.type === "federal" ? federalIcon : provincialIcon
+        });
+        // Popup content with all required fields
+        const popupHtml = `
+            <strong>Riding:</strong> ${riding.name}<br>
+            <strong>Election Type:</strong> ${riding.electionType}<br>
+            <strong>Winner:</strong> ${riding.winner}<br>
+            <strong>Runner-up:</strong> ${riding.runnerUp}<br>
+            <strong>Vote Difference:</strong> ${riding.voteDiff}<br>
+            <strong>Percentage Difference:</strong> ${riding.pctDiff}<br>
+            <strong>Turnout:</strong> ${riding.turnout}<br>
+            <strong>Eligible Voters Who Didn’t Vote:</strong> ${riding.nonVoters}
+        `;
+        marker.bindPopup(popupHtml);
+        if (riding.type === "federal") {
+            federalLayer.addLayer(marker);
+        } else {
+            provincialLayer.addLayer(marker);
+        }
+    });
+
+    // 7. Add both layers to map by default
+    federalLayer.addTo(map);
+    provincialLayer.addTo(map);
+
+    // 8. Dropdown filter logic to toggle layers
+    document.getElementById('riding-filter').addEventListener('change', function() {
+        const val = this.value;
+        if (val === "all") {
+            map.addLayer(federalLayer);
+            map.addLayer(provincialLayer);
+        } else if (val === "federal") {
+            map.addLayer(federalLayer);
+            map.removeLayer(provincialLayer);
+        } else if (val === "provincial") {
+            map.addLayer(provincialLayer);
+            map.removeLayer(federalLayer);
+        }
+    });
+
+    // --- End of interactive map skeleton ---
+    </script>
+</body>
+</html>
