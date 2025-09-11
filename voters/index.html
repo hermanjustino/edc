@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ontario Voter Data Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="../voters/styles/styles.css">
+</head>
+<body>
+    <div class="map-container">
+        <h1>Ontario Voter Data Map</h1>
+        <div class="filter-bar">
+            <label for="riding-filter">Show:</label>
+            <select id="riding-filter">
+                <option value="all">All</option>
+                <option value="federal">Federal</option>
+                <option value="provincial">Provincial</option>
+            </select>
+        </div>
+        <div id="map"></div>
+        <div class="legend">
+            <span><span class="legend-icon legend-federal"></span>Federal</span>
+            <span><span class="legend-icon legend-provincial"></span>Provincial</span>
+        </div>
+    </div>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+
+    // 1. Initialize the map centered on Sault Ste. Marie to show as much of Ontario as possible
+    // Sault Ste. Marie coordinates [46.5, -84.3]
+    const map = L.map('map').setView([46.5, -84.3], 5.8);
+
+    // 2. Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 18,
+        minZoom: 6  // Restrict zoom out to keep focus on Ontario
+    }).addTo(map);
+    
+    // 2.1 Set map bounds to Ontario region to restrict panning
+    const ontarioBounds = L.latLngBounds(
+        L.latLng(41.6, -95.2),  // Southwest corner
+        L.latLng(57.9, -74.3)   // Northeast corner
+    );
+    map.setMaxBounds(ontarioBounds);
+    map.on('drag', function() {
+        map.panInsideBounds(ontarioBounds, { animate: false });
+    });
+    
+    // 2.2 Add Ontario province boundary overlay
+    fetch('https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/canada.geojson')
+        .then(response => response.json())
+        .then(data => {
+            // Find Ontario in the GeoJSON
+            const ontarioFeature = data.features.find(feature => 
+                feature.properties.name === 'Ontario');
+            
+            if (ontarioFeature) {
+                // Create and add the Ontario boundary layer
+                const ontarioLayer = L.geoJSON(ontarioFeature, {
+                    style: {
+                        color: '#2c3e50',
+                        weight: 2,
+                        opacity: 0.6,
+                        fillColor: '#ecf0f1',
+                        fillOpacity: 0.15
+                    }
+                }).addTo(map);
+                
+                // Send the boundary layer to back (behind markers)
+                ontarioLayer.bringToBack();
+            }
+        })
+        .catch(error => console.error('Error loading Ontario boundary:', error));
+
+    // 3. Define custom marker icons for federal and provincial ridings
+    const federalIcon = L.icon({
+        iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-blue.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+        shadowSize: [41, 41]
+    });
+    const provincialIcon = L.icon({
+        iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-green.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+        shadowSize: [41, 41]
+    });
+
+    // 4. Voter data for 8 ridings (4 federal, 4 provincial)
+    // Each object: {lat, lng, name, type, voteDiff, pctDiff, turnout, winner, runnerUp, nonVoters, electionType}
+    const ridings = [
+        // Previously added ridings
+        {
+          lat: 42.259563, lng: -83.023355, name: "Windsor—Tecumseh—Lakeshore", type: "federal",
+          voteDiff: 4, pctDiff: "0.006%", turnout: "66%", winner: "Conservative", runnerUp: "Liberal",
+          nonVoters: 11842, electionType: "Federal"
+        },
+        {
+          lat: 43.630387, lng: -79.899223, name: "Milton East—Halton Hills South", type: "federal",
+          voteDiff: 21, pctDiff: "0.03%", turnout: "74%", winner: "Liberal", runnerUp: "Conservative",
+          nonVoters: 11842, electionType: "Federal"
+        },
+        // Federal ridings
+        {
+          lat: 43.451634, lng: -80.492489, name: "Kitchener Centre", type: "federal",
+          voteDiff: 375, pctDiff: "0.63%", turnout: "68%", winner: "Kelly DeRidder", runnerUp: "Mike Morrice (I)",
+          nonVoters: 8580, electionType: "Federal"
+        },
+        {
+          lat: 43.479101, lng: -80.578336, name: "Kitchener—Conestoga", type: "federal",
+          voteDiff: 522, pctDiff: "0.84%", turnout: "68%", winner: "Tim Louis (I)", runnerUp: "Doug Treleaven",
+          nonVoters: 7484, electionType: "Federal"
+        },
+        // Provincial ridings
+        {
+          lat: 43.569500, lng: -79.651690, name: "Mississauga—Erin Mills", type: "provincial",
+          voteDiff: 220, pctDiff: "0.05%", turnout: "40%", winner: "Sheref Sabawy", runnerUp: "Qasir Dar",
+          nonVoters: 55602, electionType: "Provincial"
+        },
+        {
+          lat: 49.964557, lng: -81.251631, name: "Mushkegowuk—James Bay", type: "provincial",
+          voteDiff: 8, pctDiff: "0.10%", turnout: "43%", winner: "Guy Bourgouin", runnerUp: "Dave Plourde",
+          nonVoters: 10695, electionType: "Provincial"
+        },
+        {
+          lat: 43.325134, lng: -79.797179, name: "Burlington", type: "provincial",
+          voteDiff: 40, pctDiff: "0.07%", turnout: "54%", winner: "Natalie Pierre", runnerUp: "Andrea Grebenc",
+          nonVoters: 48522, electionType: "Provincial"
+        },
+        {
+          lat: 43.850623, lng: -79.036529, name: "Ajax", type: "provincial",
+          voteDiff: 331, pctDiff: "0.8%", turnout: "42%", winner: "Robert Cerjanec", runnerUp: "Patrice Barnes",
+          nonVoters: 57365, electionType: "Provincial"
+        }
+    ];
+
+    // 5. Create LayerGroups for federal and provincial markers
+    const federalLayer = L.layerGroup();
+    const provincialLayer = L.layerGroup();
+
+    // 6. Add markers to LayerGroups with popups
+    ridings.forEach(riding => {
+        const marker = L.marker([riding.lat, riding.lng], {
+            icon: riding.type === "federal" ? federalIcon : provincialIcon
+        });
+        // Popup content with all required fields
+        const popupHtml = `
+            <strong>Riding:</strong> ${riding.name}<br>
+            <strong>Election Type:</strong> ${riding.electionType}<br>
+            <strong>Winner:</strong> ${riding.winner}<br>
+            <strong>Runner-up:</strong> ${riding.runnerUp}<br>
+            <strong>Vote Difference:</strong> ${riding.voteDiff}<br>
+            <strong>Percentage Difference:</strong> ${riding.pctDiff}<br>
+            <strong>Turnout:</strong> ${riding.turnout}<br>
+            <strong>Eligible Voters Who Didn’t Vote:</strong> ${riding.nonVoters}
+        `;
+        marker.bindPopup(popupHtml);
+        if (riding.type === "federal") {
+            federalLayer.addLayer(marker);
+        } else {
+            provincialLayer.addLayer(marker);
+        }
+    });
+
+    // 7. Add both layers to map by default
+    federalLayer.addTo(map);
+    provincialLayer.addTo(map);
+
+    // 8. Dropdown filter logic to toggle layers
+    document.getElementById('riding-filter').addEventListener('change', function() {
+        const val = this.value;
+        if (val === "all") {
+            map.addLayer(federalLayer);
+            map.addLayer(provincialLayer);
+        } else if (val === "federal") {
+            map.addLayer(federalLayer);
+            map.removeLayer(provincialLayer);
+        } else if (val === "provincial") {
+            map.addLayer(provincialLayer);
+            map.removeLayer(federalLayer);
+        }
+    });
+
+    // --- End of interactive map skeleton ---
+    </script>
+</body>
+</html>
