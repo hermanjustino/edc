@@ -26,7 +26,7 @@
         </div>
         <div id="map"></div>
         <div class="legend">
-            <div style="margin-bottom: 5px; font-weight: bold;">Vote Difference:</div>
+            <div style="font-weight: bold; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; width: 100%;">Vote Difference:</div>
             <span id="vote-diff-10"><span class="legend-icon vote-diff-10"></span>Under 10</span>
             <span id="vote-diff-100"><span class="legend-icon vote-diff-100"></span>Under 100</span>
             <span id="vote-diff-600"><span class="legend-icon vote-diff-600"></span>Under 600</span>
@@ -115,7 +115,7 @@
 
     // 6. Fit the map to a custom initial view (instead of full bounds)
     // Adjust these values to focus on a specific part of Ontario
-    const initialCenter = map.unproject([w * 0.675, h * 0.7], 0); // Focuses on Southern Ontario
+    const initialCenter = map.unproject([w * 0.675, h * 0.715], 0); // Focuses on Southern Ontario
     const initialZoom = 0; // Adjust this value as needed (between minZoom and maxZoom)
     map.setView(initialCenter, initialZoom);
 
