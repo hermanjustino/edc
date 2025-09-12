@@ -1,64 +1,114 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+body {
+    background-color: #f5f7fa;
+}
+
 h1{
     text-align: center;
+    margin: 15px 0;
+    color: #2c3e50;
+    font-size: 1.8rem;
+    font-weight: 600;
 }
+
+/* Map Container */
 .map-container {
-    max-width: 900px;
-    margin: 40px auto;
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    padding: 24px 24px 0 24px;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Control Panel */
+.control-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px 15px 20px;
+    z-index: 1000;
 }
 
 .filter-bar {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 12px;
+    align-items: center;
 }
 
 .filter-bar label {
     font-weight: 600;
     margin-right: 8px;
+    color: #2c3e50;
 }
 
 #riding-filter {
-    padding: 4px 10px;
+    padding: 8px 12px;
     border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 1em;
+    border: 1px solid #ddd;
+    background-color: white;
+    font-size: 0.9em;
+    color: #2c3e50;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
+.reset-button {
+    padding: 8px 15px;
+    border-radius: 6px;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    font-weight: 500;
+    font-size: 0.9em;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.2s;
+}
+
+.reset-button:hover {
+    background-color: #2980b9;
+}
+
+/* Map */
 #map {
+    flex-grow: 1;
     width: 100%;
-    height: 540px;
-    border-radius: 10px;
-    margin-bottom: 24px;
+    z-index: 1;
+    background-color: #f8f9fa;
 }
 
-/* Custom marker icon legend */
+/* Legend */
 .legend {
-    background: white;
-    padding: 8px 14px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    font-size: 0.95em;
     position: absolute;
-    bottom: 18px;
-    left: 18px;
+    bottom: 20px;
+    left: 20px;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     z-index: 1000;
+    display: flex;
+    gap: 15px;
 }
 
 .legend span {
     display: inline-flex;
     align-items: center;
-    margin-right: 16px;
+    font-size: 0.9rem;
+    color: #2c3e50;
 }
 
 .legend-icon {
-    width: 18px;
-    height: 18px;
+    width: 12px;
+    height: 12px;
     display: inline-block;
-    margin-right: 6px;
+    margin-right: 8px;
     border-radius: 50%;
 }
 
@@ -68,4 +118,126 @@ h1{
 
 .legend-provincial {
     background: #28a745;
+}
+
+/* Custom Markers */
+.custom-marker {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.federal-marker {
+    background-color: rgba(44, 90, 160, 0.7);
+    border: 2px solid #2c5aa0;
+}
+
+.provincial-marker {
+    background-color: rgba(40, 167, 69, 0.7);
+    border: 2px solid #28a745;
+}
+
+.marker-inner {
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+/* Popup Styling */
+.riding-popup-container {
+    padding: 0;
+}
+
+.riding-popup {
+    padding: 15px;
+}
+
+.riding-popup h3 {
+    margin: 0 0 5px 0;
+    color: #2c3e50;
+    font-size: 1.1rem;
+}
+
+.election-type {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+.popup-details {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.popup-details td {
+    padding: 5px 0;
+    font-size: 0.9rem;
+}
+
+.popup-details td:first-child {
+    font-weight: 600;
+    color: #34495e;
+    width: 40%;
+}
+
+/* Loading Indicator */
+.loading-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    z-index: 1500;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.loading-indicator.error {
+    background: rgba(231, 76, 60, 0.1);
+    color: #c0392b;
+    border-left: 4px solid #e74c3c;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+        margin: 10px 0;
+    }
+    
+    .control-panel {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .filter-bar {
+        justify-content: center;
+    }
+    
+    .reset-button {
+        width: 100%;
+    }
+    
+    .legend {
+        bottom: 10px;
+        left: 10px;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.3rem;
+    }
+    
+    .legend span {
+        font-size: 0.8rem;
+    }
 }
