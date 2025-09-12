@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -10,7 +11,102 @@ body {
     background-color: #f5f7fa;
 }
 
-h1{
+.header {
+    padding: 15px;
+    background-color: white;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#reset-button {
+    padding: 6px 15px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#reset-button:hover {
+    background-color: #2980b9;
+}
+
+.legend {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.legend span {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 15px;
+    cursor: pointer;
+    /* Make spans clickable */
+}
+
+/* Vote difference colors */
+.vote-diff-10 {
+    background-color: #d32f2f;
+    /* Bright red for extremely close races (under 10) */
+}
+
+.vote-diff-100 {
+    background-color: #ff9800;
+    /* Orange for close races (under 100) */
+}
+
+.vote-diff-600 {
+    background-color: #ffc107;
+    /* Yellow for somewhat close races (under 600) */
+}
+
+/* Riding type colors */
+.federal-marker {
+    border: 2px solid #5d4c46;
+    /* Brown for federal */
+}
+
+.provincial-marker {
+    border: 2px solid #6b8e23;
+    /* Olive green for provincial */
+}
+
+.popup-content {
+    padding: 5px;
+}
+
+.popup-content h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1em;
+}
+
+.popup-content table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.popup-content td {
+    padding: 3px 0;
+}
+
+.popup-content td:first-child {
+    font-weight: bold;
+    width: 40%;
+}
+
+h1 {
     text-align: center;
     margin: 15px 0;
     color: #2c3e50;
@@ -55,7 +151,7 @@ h1{
     background-color: white;
     font-size: 0.9em;
     color: #2c3e50;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .reset-button {
@@ -67,7 +163,7 @@ h1{
     font-weight: 500;
     font-size: 0.9em;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: background-color 0.2s;
 }
 
@@ -91,18 +187,12 @@ h1{
     background: white;
     padding: 10px 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     display: flex;
     gap: 15px;
 }
 
-.legend span {
-    display: inline-flex;
-    align-items: center;
-    font-size: 0.9rem;
-    color: #2c3e50;
-}
 
 .legend-icon {
     width: 12px;
@@ -210,21 +300,21 @@ h1{
         font-size: 1.5rem;
         margin: 10px 0;
     }
-    
+
     .control-panel {
         flex-direction: column;
         gap: 10px;
         align-items: stretch;
     }
-    
+
     .filter-bar {
         justify-content: center;
     }
-    
+
     .reset-button {
         width: 100%;
     }
-    
+
     .legend {
         bottom: 10px;
         left: 10px;
@@ -236,7 +326,7 @@ h1{
     h1 {
         font-size: 1.3rem;
     }
-    
+
     .legend span {
         font-size: 0.8rem;
     }
