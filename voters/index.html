@@ -13,14 +13,6 @@
         <div class="header">
             <h1>Ontario Voter Data Map</h1>
             <div class="controls">
-                <div class="filter-bar">
-                    <label for="riding-filter">Show:</label>
-                    <select id="riding-filter">
-                        <option value="all">All Ridings</option>
-                        <option value="federal">Federal Ridings</option>
-                        <option value="provincial">Provincial Ridings</option>
-                    </select>
-                </div>
                 <button id="reset-button">Reset View</button>
             </div>
         </div>
@@ -28,13 +20,9 @@
         <div class="legend">
             <div style="font-weight: bold; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; width: 100%;">Vote Difference:</div>
             <span id="vote-diff-10"><span class="legend-icon vote-diff-10"></span>Under 10</span>
-            <span id="vote-diff-100"><span class="legend-icon vote-diff-100"></span>Under 100</span>
-            <span id="vote-diff-600"><span class="legend-icon vote-diff-600"></span>Under 600</span>
+            <span id="vote-diff-100"><span class="legend-icon vote-diff-100"></span>10 - 100</span>
+            <span id="vote-diff-600"><span class="legend-icon vote-diff-600"></span>101 - 600</span>
             <span id="vote-diff-all" style="color: #3498db;"><span class="legend-icon" style="background-color: #3498db;"></span>Show All</span>
-            <div style="margin: 5px 0; border-top: 1px solid #ddd; padding-top: 5px;">
-                <span><span class="legend-icon" style="border: 2px solid #5d4c46;"></span>Federal</span>
-                <span><span class="legend-icon" style="border: 2px solid #6b8e23;"></span>Provincial</span>
-            </div>
         </div>
     </div>
 
@@ -46,43 +34,43 @@
     const ridingData = [
         // Federal ridings
         {
-          lat: 42.259563, lng: -83.023355, name: "Windsor—Tecumseh—Lakeshore", type: "federal",
+          lat: 42.259563, lng: -81.023355, name: "Windsor—Tecumseh—Lakeshore", 
           voteDiff: 4, pctDiff: "0.006%", turnout: "66%", winner: "Conservative", runnerUp: "Liberal",
           nonVoters: 11842, electionType: "Federal", electionYear: 2025
         },
         {
-          lat: 43.630387, lng: -80.999223, name: "Milton East—Halton Hills South", type: "federal",
+          lat: 43.630387, lng: -80.999223, name: "Milton East—Halton Hills South", 
           voteDiff: 21, pctDiff: "0.03%", turnout: "74%", winner: "Liberal", runnerUp: "Conservative",
           nonVoters: 11842, electionType: "Federal", electionYear: 2025
         },
         {
-          lat: 43.951634, lng: -81.992489, name: "Kitchener Centre", type: "federal",
+          lat: 43.951634, lng: -81.992489, name: "Kitchener Centre", 
           voteDiff: 375, pctDiff: "0.63%", turnout: "68%", winner: "Kelly DeRidder", runnerUp: "Mike Morrice (I)",
           nonVoters: 8580, electionType: "Federal", electionYear: 2025
         },
         {
-          lat: 43.279101, lng: -81.878336, name: "Kitchener—Conestoga", type: "federal",
+          lat: 43.279101, lng: -81.878336, name: "Kitchener—Conestoga", 
           voteDiff: 522, pctDiff: "0.84%", turnout: "68%", winner: "Tim Louis (I)", runnerUp: "Doug Treleaven",
           nonVoters: 7484, electionType: "Federal", electionYear: 2025
         },
         // Provincial ridings
         {
-          lat: 43.969500, lng: -79.951690, name: "Mississauga—Erin Mills", type: "provincial",
+          lat: 43.969500, lng: -79.951690, name: "Mississauga—Erin Mills", 
           voteDiff: 220, pctDiff: "0.05%", turnout: "40%", winner: "Sheref Sabawy", runnerUp: "Qasir Dar",
           nonVoters: 55602, electionType: "Provincial", electionYear: 2025
         },
         {
-          lat: 47.964557, lng: -85.251631, name: "Mushkegowuk—James Bay", type: "provincial",
+          lat: 47.964557, lng: -85.251631, name: "Mushkegowuk—James Bay", 
           voteDiff: 8, pctDiff: "0.10%", turnout: "43%", winner: "Guy Bourgouin", runnerUp: "Dave Plourde",
           nonVoters: 10695, electionType: "Provincial", electionYear: 2025
         },
         {
-          lat: 43.125134, lng: -80.797179, name: "Burlington", type: "provincial",
+          lat: 43.125134, lng: -80.797179, name: "Burlington", 
           voteDiff: 40, pctDiff: "0.07%", turnout: "54%", winner: "Natalie Pierre", runnerUp: "Andrea Grebenc",
           nonVoters: 48522, electionType: "Provincial", electionYear: 2025
         },
         {
-          lat: 44.850623, lng: -80.036529, name: "Ajax", type: "provincial",
+          lat: 44.850623, lng: -80.036529, name: "Ajax", 
           voteDiff: 331, pctDiff: "0.8%", turnout: "42%", winner: "Robert Cerjanec", runnerUp: "Patrice Barnes",
           nonVoters: 57365, electionType: "Provincial", electionYear: 2025
         }
@@ -110,18 +98,17 @@
     map.setMaxBounds(bounds);
 
     // 5. Add the Ontario image as an overlay
-    const imageUrl = 'images/ontario.svg';
+    const imageUrl = 'images/ontario.png';
     L.imageOverlay(imageUrl, bounds).addTo(map);
 
     // 6. Fit the map to a custom initial view (instead of full bounds)
     // Adjust these values to focus on a specific part of Ontario
-    const initialCenter = map.unproject([w * 0.675, h * 0.715], 0); // Focuses on Southern Ontario
+    const initialCenter = map.unproject([w * 0.675, h * 0.7], 0); // Focuses on Southern Ontario
     const initialZoom = 0; // Adjust this value as needed (between minZoom and maxZoom)
     map.setView(initialCenter, initialZoom);
 
-    // 7. Create layer groups for federal and provincial ridings
-    const federalLayer = L.layerGroup();
-    const provincialLayer = L.layerGroup();
+    // 7. Create layer group for all ridings
+    const allRidingsLayer = L.layerGroup();
     
     // Create layer groups for vote difference categories
     const under10Layer = L.layerGroup();
@@ -168,8 +155,8 @@
         const marker = L.circleMarker(point, {
             radius: 15,
             fillColor: fillColor,
-            color: riding.type === 'federal' ? '#5d4c46' : '#6b8e23', // Border color indicates federal/provincial
-            weight: 4,
+            color: '#555555', // Same border color for all markers
+            weight: 3,
             opacity: 1,
             fillOpacity: 0.8,
         });
@@ -201,12 +188,8 @@
             maxWidth: 300
         });
         
-        // Add to the appropriate layer
-        if (riding.type === 'federal') {
-            federalLayer.addLayer(marker);
-        } else {
-            provincialLayer.addLayer(marker);
-        }
+        // Add to the all ridings layer
+        allRidingsLayer.addLayer(marker);
         
         // Also add to vote difference layers
         if (riding.voteDiff < 10) {
@@ -218,27 +201,10 @@
         }
     });
 
-    // 9. Add both layers to the map
-    federalLayer.addTo(map);
-    provincialLayer.addTo(map);
+    // 9. Add all ridings layer to the map
+    allRidingsLayer.addTo(map);
 
-    // 10. Set up the filter dropdown to toggle layers
-    document.getElementById('riding-filter').addEventListener('change', function() {
-        const value = this.value;
-        
-        if (value === 'all') {
-            if (!map.hasLayer(federalLayer)) map.addLayer(federalLayer);
-            if (!map.hasLayer(provincialLayer)) map.addLayer(provincialLayer);
-        } else if (value === 'federal') {
-            if (!map.hasLayer(federalLayer)) map.addLayer(federalLayer);
-            if (map.hasLayer(provincialLayer)) map.removeLayer(provincialLayer);
-        } else if (value === 'provincial') {
-            if (map.hasLayer(federalLayer)) map.removeLayer(federalLayer);
-            if (!map.hasLayer(provincialLayer)) map.addLayer(provincialLayer);
-        }
-    });
-
-    // 11. Reset button functionality
+    // 10. Reset button functionality
     document.getElementById('reset-button').addEventListener('click', function() {
         map.setView(initialCenter, initialZoom);
 
@@ -247,21 +213,19 @@
         if (map.hasLayer(under100Layer)) map.removeLayer(under100Layer);
         if (map.hasLayer(under600Layer)) map.removeLayer(under600Layer);
         
-        // Add back the federal and provincial layers (all points)
-        map.addLayer(federalLayer);
-        map.addLayer(provincialLayer);
+        // Add back all ridings layer
+        map.addLayer(allRidingsLayer);
     });
 
-    // 12. Prevent map from being dragged outside bounds
+    // 11. Prevent map from being dragged outside bounds
     map.on('drag', function() {
         map.panInsideBounds(bounds, { animate: false });
     });
     
-    // 13. Set up click handlers for vote difference filtering
+    // 12. Set up click handlers for vote difference filtering
     document.getElementById('vote-diff-10').addEventListener('click', function() {
         // Remove all layers
-        map.removeLayer(federalLayer);
-        map.removeLayer(provincialLayer);
+        map.removeLayer(allRidingsLayer);
         if (map.hasLayer(under10Layer)) map.removeLayer(under10Layer);
         if (map.hasLayer(under100Layer)) map.removeLayer(under100Layer);
         if (map.hasLayer(under600Layer)) map.removeLayer(under600Layer);
@@ -272,8 +236,7 @@
     
     document.getElementById('vote-diff-100').addEventListener('click', function() {
         // Remove all layers
-        map.removeLayer(federalLayer);
-        map.removeLayer(provincialLayer);
+        map.removeLayer(allRidingsLayer);
         if (map.hasLayer(under10Layer)) map.removeLayer(under10Layer);
         if (map.hasLayer(under100Layer)) map.removeLayer(under100Layer);
         if (map.hasLayer(under600Layer)) map.removeLayer(under600Layer);
@@ -284,8 +247,7 @@
     
     document.getElementById('vote-diff-600').addEventListener('click', function() {
         // Remove all layers
-        map.removeLayer(federalLayer);
-        map.removeLayer(provincialLayer);
+        map.removeLayer(allRidingsLayer);
         if (map.hasLayer(under10Layer)) map.removeLayer(under10Layer);
         if (map.hasLayer(under100Layer)) map.removeLayer(under100Layer);
         if (map.hasLayer(under600Layer)) map.removeLayer(under600Layer);
@@ -300,18 +262,11 @@
         if (map.hasLayer(under100Layer)) map.removeLayer(under100Layer);
         if (map.hasLayer(under600Layer)) map.removeLayer(under600Layer);
         
-        // Add back the federal and provincial layers (all points)
-        map.addLayer(federalLayer);
-        map.addLayer(provincialLayer);
-        
-        // Make sure the dropdown filter is respected
-        const filterValue = document.getElementById('riding-filter').value;
-        if (filterValue === 'federal') {
-            map.removeLayer(provincialLayer);
-        } else if (filterValue === 'provincial') {
-            map.removeLayer(federalLayer);
-        }
+        // Add back all ridings layer
+        map.addLayer(allRidingsLayer);
     });
     </script>
+</body>
+</html>
 </body>
 </html>
