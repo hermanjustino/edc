@@ -520,14 +520,14 @@ header p {
 
 .feedback-message {
     margin-top: 12px;
-    padding: 8px;
+    padding: 6px;
     border-radius: 8px;
     font-weight: 600;
     text-align: center;
     opacity: 0;
     transform: translateY(10px);
     transition: all 0.3s ease;
-    font-size: 0.8rem;
+    font-size: 0.65rem;
 }
 
 .feedback-message.show {
@@ -564,12 +564,12 @@ header p {
 
 .context-message {
     margin-top: 8px;
-    padding: 6px;
+    padding: 3px;
     border-radius: 4px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-style: italic;
     color: #555;
-    line-height: 1.4;
+    line-height: 1.2;
 }
 
 .learn-more-link {
@@ -774,8 +774,8 @@ header p {
     }
     
     .context-message {
-        font-size: 0.7rem;
-        padding: 4px;
+        font-size: 0.65rem;
+        padding: 3px;
     }
     
     .next-btn {
@@ -886,9 +886,9 @@ header p {
     }
     
     .feedback-message {
-        margin-top: 8px;
-        padding: 6px;
-        font-size: 0.75rem;
+        margin-top: 6px;
+        padding: 3px;
+        font-size: 0.65rem;
     }
 }
 
