@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ontario Voter Data Map</title>
+    <title>Close Elections in Ontario</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="styles/styles.css">
@@ -11,7 +11,7 @@
 <body>
     <div class="map-container">
         <div class="header">
-            <h1>Ontario Voter Data Map</h1>
+            <h1>Close Elections in Ontario</h1>
             <div class="controls">
                 <button id="reset-button">Reset View</button>
             </div>
@@ -22,7 +22,6 @@
             <span id="vote-diff-10"><span class="legend-icon vote-diff-10"></span>Under 10</span>
             <span id="vote-diff-100"><span class="legend-icon vote-diff-100"></span>10 - 100</span>
             <span id="vote-diff-600"><span class="legend-icon vote-diff-600"></span>101 - 600</span>
-            <span id="vote-diff-all" style="color: #3498db;"><span class="legend-icon" style="background-color: #3498db;"></span>Show All</span>
         </div>
     </div>
 
@@ -34,43 +33,43 @@
     const ridingData = [
         // Federal ridings
         {
-          lat: 42.259563, lng: -81.023355, name: "Windsor—Tecumseh—Lakeshore", 
+          lat: 42.559563, lng: -82.423355, name: "Windsor—Tecumseh—Lakeshore", 
           voteDiff: 4, pctDiff: "0.006%", turnout: "66%", winner: "Conservative", runnerUp: "Liberal",
           nonVoters: 11842, electionType: "Federal", electionYear: 2025
         },
         {
-          lat: 43.630387, lng: -80.999223, name: "Milton East—Halton Hills South", 
+          lat: 44.630387, lng: -80.399223, name: "Milton East—Halton Hills South", 
           voteDiff: 21, pctDiff: "0.03%", turnout: "74%", winner: "Liberal", runnerUp: "Conservative",
           nonVoters: 11842, electionType: "Federal", electionYear: 2025
         },
         {
-          lat: 43.951634, lng: -81.992489, name: "Kitchener Centre", 
+          lat: 44.951634, lng: -81.692489, name: "Kitchener Centre", 
           voteDiff: 375, pctDiff: "0.63%", turnout: "68%", winner: "Kelly DeRidder", runnerUp: "Mike Morrice (I)",
           nonVoters: 8580, electionType: "Federal", electionYear: 2025
         },
         {
-          lat: 43.279101, lng: -81.878336, name: "Kitchener—Conestoga", 
+          lat: 44.279101, lng: -81.578336, name: "Kitchener—Conestoga", 
           voteDiff: 522, pctDiff: "0.84%", turnout: "68%", winner: "Tim Louis (I)", runnerUp: "Doug Treleaven",
           nonVoters: 7484, electionType: "Federal", electionYear: 2025
         },
         // Provincial ridings
         {
-          lat: 43.969500, lng: -79.951690, name: "Mississauga—Erin Mills", 
+          lat: 44.969500, lng: -79.951690, name: "Mississauga—Erin Mills", 
           voteDiff: 220, pctDiff: "0.05%", turnout: "40%", winner: "Sheref Sabawy", runnerUp: "Qasir Dar",
           nonVoters: 55602, electionType: "Provincial", electionYear: 2025
         },
         {
-          lat: 47.964557, lng: -85.251631, name: "Mushkegowuk—James Bay", 
+          lat: 48.694557, lng: -84.651631, name: "Mushkegowuk—James Bay", 
           voteDiff: 8, pctDiff: "0.10%", turnout: "43%", winner: "Guy Bourgouin", runnerUp: "Dave Plourde",
           nonVoters: 10695, electionType: "Provincial", electionYear: 2025
         },
         {
-          lat: 43.125134, lng: -80.797179, name: "Burlington", 
+          lat: 43.925134, lng: -80.397179, name: "Burlington", 
           voteDiff: 40, pctDiff: "0.07%", turnout: "54%", winner: "Natalie Pierre", runnerUp: "Andrea Grebenc",
           nonVoters: 48522, electionType: "Provincial", electionYear: 2025
         },
         {
-          lat: 44.850623, lng: -80.036529, name: "Ajax", 
+          lat: 45.950623, lng: -79.836529, name: "Ajax", 
           voteDiff: 331, pctDiff: "0.8%", turnout: "42%", winner: "Robert Cerjanec", runnerUp: "Patrice Barnes",
           nonVoters: 57365, electionType: "Provincial", electionYear: 2025
         }
@@ -98,12 +97,12 @@
     map.setMaxBounds(bounds);
 
     // 5. Add the Ontario image as an overlay
-    const imageUrl = 'images/ontario.png';
+    const imageUrl = 'images/image.svg';
     L.imageOverlay(imageUrl, bounds).addTo(map);
 
     // 6. Fit the map to a custom initial view (instead of full bounds)
     // Adjust these values to focus on a specific part of Ontario
-    const initialCenter = map.unproject([w * 0.675, h * 0.7], 0); // Focuses on Southern Ontario
+    const initialCenter = map.unproject([w * 0.675, h * 0.65], 0); // Focuses on Southern Ontario
     const initialZoom = 0; // Adjust this value as needed (between minZoom and maxZoom)
     map.setView(initialCenter, initialZoom);
 
@@ -254,16 +253,6 @@
         
         // Add only the under 600 layer
         map.addLayer(under600Layer);
-    });
-    
-    document.getElementById('vote-diff-all').addEventListener('click', function() {
-        // Remove vote difference layers
-        if (map.hasLayer(under10Layer)) map.removeLayer(under10Layer);
-        if (map.hasLayer(under100Layer)) map.removeLayer(under100Layer);
-        if (map.hasLayer(under600Layer)) map.removeLayer(under600Layer);
-        
-        // Add back all ridings layer
-        map.addLayer(allRidingsLayer);
     });
     </script>
 </body>
