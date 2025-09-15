@@ -1,0 +1,445 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 700px;
+    max-width: 90%;
+    position: relative;
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 40px;
+    font-weight: 700;
+    font-size: 2.2em;
+}
+
+.chart-container {
+    position: relative;
+    padding: 20px 0;
+}
+
+.chart-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.country {
+    width: 140px;
+    text-align: right;
+    padding-right: 20px;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.flag {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bar-container {
+    flex-grow: 1;
+    height: 40px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 8px;
+    position: relative;
+    transition: width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.score {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 700;
+    font-size: 1.2em;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.5s ease 1s;
+}
+
+.emoji {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    opacity: 0;
+    transition: opacity 1s ease 1.5s, transform 1s ease 1.5s;
+}
+
+.max-scale {
+    position: absolute;
+    right: 10px;
+    bottom: -15px;
+    color: #95a5a6;
+    font-size: 0.9em;
+}
+
+.scale-markers {
+    position: absolute;
+    bottom: -5px;
+    left: 140px;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.marker {
+    width: 1px;
+    height: 5px;
+    background-color: #bdc3c7;
+}
+
+.marker-label {
+    position: absolute;
+    bottom: -25px;
+    transform: translateX(-50%);
+    color: #95a5a6;
+    font-size: 0.8em;
+}
+
+.subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-top: 40px;
+    font-size: 1em;
+    font-style: italic;
+}
+
+/* Finland */
+.finland .bar {
+    background: linear-gradient(90deg, #2980b9, #3498db);
+}
+
+/* Canada */
+.canada .bar {
+    background: linear-gradient(90deg, #c0392b, #e74c3c);
+}
+
+/* United Kingdom */
+.uk .bar {
+    background: linear-gradient(90deg, #2c3e50, #34495e);
+}
+
+.watermark {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    color: #bdc3c7;
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+/* Wallet return rate visualization styles */
+.section-divider {
+    width: 100%;
+    border-top: 1px solid #e0e0e0;
+    margin: 60px 0 40px 0;
+}
+
+.wallet-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 700px;
+    max-width: 90%;
+    position: relative;
+    overflow: hidden;
+    margin-top: 40px;
+}
+
+.wallet-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 40px;
+    font-weight: 700;
+    font-size: 2em;
+}
+
+.wallet-subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+.wallet-chart-container {
+    position: relative;
+    padding: 20px 0;
+    height: 200px;
+}
+
+.wallet-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    height: 60px;
+    position: relative;
+}
+
+.wallet-label {
+    width: 180px;
+    text-align: right;
+    padding-right: 20px;
+    font-weight: 600;
+    font-size: 1em;
+    color: #2c3e50;
+}
+
+.wallet-bar-container {
+    flex-grow: 1;
+    height: 40px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.wallet-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 8px;
+    position: relative;
+    transition: width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 15px;
+}
+
+.perceived-bar {
+    background: linear-gradient(90deg, #95a5a6, #7f8c8d);
+}
+
+.actual-bar {
+    background: linear-gradient(90deg, #27ae60, #2ecc71);
+}
+
+.wallet-percentage {
+    font-weight: 700;
+    font-size: 1.2em;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.5s ease 1s;
+}
+
+.wallet-icon {
+    position: absolute;
+    right: -45px;
+    font-size: 30px;
+    opacity: 0;
+    transition: opacity 1s ease 1.5s, transform 1s ease 1.5s;
+}
+
+.result-description {
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 40px;
+    padding: 15px;
+    background-color: #e8f6f3;
+    border-radius: 10px;
+    border-left: 5px solid #27ae60;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.highlight {
+    font-weight: 700;
+    color: #16a085;
+}
+
+.wallet-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    padding: 0 0 0 180px;
+    color: #95a5a6;
+    font-size: 0.8em;
+}
+
+/* Impact Factor Visualization Styles */
+.impact-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 700px;
+    max-width: 90%;
+    position: relative;
+    overflow: hidden;
+    margin-top: 40px;
+}
+
+.impact-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 2em;
+}
+
+.impact-subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 40px;
+    font-size: 1.1em;
+}
+
+.happiness-meter {
+    background: #f5f7fa;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.happiness-level {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.happiness-score {
+    font-size: 3em;
+    font-weight: 700;
+    color: #2c3e50;
+    transition: all 0.8s ease;
+    margin-right: 20px;
+}
+
+.happiness-emoji {
+    font-size: 3.5em;
+    transition: all 0.5s ease;
+}
+
+.happiness-bar-container {
+    height: 12px;
+    background-color: #ecf0f1;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.happiness-bar {
+    height: 100%;
+    width: 70%;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    border-radius: 6px;
+    transition: width 0.8s ease-out;
+}
+
+.impact-factor {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f8f9ff;
+    transition: all 0.5s ease;
+    display: flex;
+    align-items: center;
+    min-height: 120px;
+}
+
+.impact-icon {
+    font-size: 2.5em;
+    margin-right: 20px;
+    transition: all 0.5s ease;
+}
+
+.impact-text {
+    flex: 1;
+}
+
+.impact-title-text {
+    font-weight: 700;
+    font-size: 1.3em;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.impact-description {
+    color: #7f8c8d;
+    line-height: 1.5;
+}
+
+.impact-value {
+    font-weight: 700;
+    font-size: 1.5em;
+    width: 100px;
+    text-align: center;
+    transition: all 0.5s ease;
+}
+
+.positive {
+    color: #27ae60;
+}
+
+.negative {
+    color: #e74c3c;
+}
+
+.impact-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.control-btn {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background: #2c5aa0;
+}
+
+.impact-note {
+    text-align: center;
+    font-size: 0.8em;
+    color: #95a5a6;
+    margin-top: 15px;
+}

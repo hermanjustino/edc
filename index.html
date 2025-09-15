@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Who's in Charge? - Civic Engagement Quiz</title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-    
+
     <link rel="stylesheet" href="assets/css/style.css">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SLBS8E7YN8"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
         gtag('config', 'G-SLBS8E7YN8');
@@ -26,14 +27,21 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://hermanjustino.github.io/edc-products/">
     <meta property="og:image" content="https://hermanjustino.github.io/edc-products/quiz-preview.jpg">
-    
+
     <!-- Twitter Card meta tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Who's in Charge? - Civic Engagement Quiz">
     <meta name="twitter:description" content="Test your knowledge of Canadian government responsibilities">
     <meta name="twitter:image" content="https://hermanjustino.github.io/edc-products/quiz-preview.jpg">
 </head>
+
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen active">
+        <div class="logo-container">
+            <img src="assets/artworks-logo/AWTO_Youth Wordmark-BLACK.svg" alt="artworksTO Logo" class="loading-logo">
+        </div>
+    </div>
     <div class="container">
         <header>
             <h1>Who's in Charge?</h1>
@@ -49,11 +57,12 @@
                 <div class="question-counter">
                     <span id="current-question">1</span> of <span id="total-questions">7</span>
                 </div>
-                
+
                 <div class="question-card">
                     <h2 id="question-text">Loading...</h2>
-                    <p class="question-subtitle">Drag the area of responsibility icon to the correct government level</p>
-                    
+                    <p class="question-subtitle">Drag the area of responsibility icon to the correct government level
+                    </p>
+
                     <div class="drop-zones">
                         <div class="drop-zone" data-government="Municipal">
                             <div class="zone-icon">🏙️</div>
@@ -71,7 +80,7 @@
                             <div class="zone-description">National Government</div>
                         </div>
                     </div>
-                    
+
                     <div class="drag-area">
                         <div class="drag-instructions">Drag this area of responsibility:</div>
                         <div class="draggable-card" draggable="true" id="draggable-service" tabindex="0">
@@ -90,16 +99,17 @@
                         <span class="score-number" id="final-score">0</span>
                         <span class="score-total">out of 12</span>
                     </div>
-                    
+
                     <div class="persona-result">
                         <h3 id="persona-title">Your Civic Persona</h3>
                         <div class="persona-badge" id="persona-badge">
                             <span id="persona-name">Civic Explorer</span>
                         </div>
                         <p id="persona-message">Keep exploring to learn more about how government works!</p>
-                        <span>Now is a great time to reach out to an elected official about an issue you care about!</span>
+                        <span>Now is a great time to reach out to an elected official about an issue you care
+                            about!</span>
                     </div>
-                    
+
                     <button id="restart-btn" class="restart-btn">
                         🔄 Try Again
                     </button>
@@ -108,6 +118,16 @@
         </main>
     </div>
 
+    <footer class="quiz-footer">
+        <div class="footer-content">
+            <a href="https://torontoartsfoundation.org/programs/artworksto-newcomer/" target="_blank" rel="noopener noreferrer">
+                <img src="assets/artworks-logo/AWTO_Youth Wordmark-BLACK.svg" alt="artworksTO Logo" class="footer-logo">
+            </a>
+            <p class="creator-credit">© <span id="current-year"></span> <a href="https://hermanjustino.com" target="_blank" rel="noopener noreferrer">Herman Justino</a>. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script src="assets/js/script.js"></script>
 </body>
+
 </html>
