@@ -29,7 +29,69 @@ body {
     align-items: center;
     justify-content: center;
     padding: 10px;
+
+    flex-direction: column;
 }
+
+
+/* Loading Screen Styles */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #008C7A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.loading-screen.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.logo-container {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-logo {
+    width: 200px;
+    opacity: 0;
+    animation: spin 1.5s infinite;
+}
+
+@keyframes spin {
+    0% { }
+  40% { transform: rotate(10deg); background-position: bottom; opacity: 1.2; }
+    100% { transform: rotate(-360deg); }
+}
+
+.loading-screen.active .loading-logo {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+}
+
+@media (max-width: 768px) {
+    .logo-container {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .loading-logo {
+        width: 150px;
+    }
+}
+
 
 .container {
     max-width: 550px;
@@ -559,6 +621,62 @@ header p {
 .next-btn:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
+}
+
+/* Footer Styles */
+.quiz-footer {
+    padding: 10px;
+    background-color: #f8f9ff;
+    border-top: 1px solid #e6edff;
+    text-align: center;
+    flex-shrink: 0;
+    border-radius: 0 0 15px 15px;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.footer-logo {
+    width: 80px;
+    height: auto;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.footer-logo:hover {
+    opacity: 1;
+}
+
+.creator-credit {
+    font-size: 0.75rem;
+    color: #666;
+    font-weight: 400;
+}
+
+/* Adjust for mobile */
+@media (max-width: 768px) {
+    .footer-logo {
+        width: 70px;
+    }
+    
+    .creator-credit {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .quiz-footer {
+        padding: 8px;
+    }
+    
+    .footer-logo {
+        width: 60px;
+    }
 }
 
 /* Mobile Responsive */

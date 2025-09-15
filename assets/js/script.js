@@ -1,3 +1,26 @@
+// Loading screen handler
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    const loadingScreen = document.getElementById('loading-screen');
+    const container = document.querySelector('.container');
+    const logo = document.querySelector('.loading-logo');
+    
+    // Show loading screen
+    loadingScreen.classList.add('active');
+    
+    // Wait for logo animation to complete
+    setTimeout(() => {
+        // Hide loading screen with fade out
+        loadingScreen.classList.remove('active');
+        
+        // Show the quiz container
+        setTimeout(() => {
+            container.style.display = '';
+            loadingScreen.style.display = 'none';
+        }, 500); // Wait for fade out to complete
+    }, 1500); // Adjust timing as needed (1.5 seconds)
+});
+
 class CivicQuiz {
     constructor() {
         // Government services data from EDC CSV
