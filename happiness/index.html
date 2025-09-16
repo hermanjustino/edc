@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,23 @@
     <link rel="stylesheet" href="styles/styles.css">
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7SRTKL02C3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7SRTKL02C3');
+    </script>
+
 </head>
+
 <body>
     <div class="container">
         <h1>Global Happiness Rankings</h1>
-        
+
         <div class="chart-container">
             <div class="chart-row finland">
                 <div class="country">
@@ -25,7 +38,7 @@
                     <span class="emoji">😊</span>
                 </div>
             </div>
-            
+
             <div class="chart-row canada">
                 <div class="country">
                     <img src="https://flagcdn.com/w80/ca.png" alt="Canada" class="flag">
@@ -38,7 +51,7 @@
                     <span class="emoji">🙂</span>
                 </div>
             </div>
-            
+
             <div class="chart-row uk">
                 <div class="country">
                     <img src="https://flagcdn.com/w80/gb.png" alt="United Kingdom" class="flag">
@@ -51,7 +64,7 @@
                     <span class="emoji">🙂</span>
                 </div>
             </div>
-            
+
             <div class="scale-markers">
                 <div class="marker" style="left: 0%"><span class="marker-label">0</span></div>
                 <div class="marker" style="left: 10%"><span class="marker-label">1</span></div>
@@ -66,18 +79,18 @@
                 <div class="marker" style="left: 100%"><span class="marker-label">10</span></div>
             </div>
         </div>
-        
+
         <p class="subtitle">Source: World Happiness Report</p>
         <div class="watermark">Environmental Defence Canada</div>
     </div>
-    
+
     <div class="section-divider"></div>
-    
+
     <!-- Wallet Return Rate Visualization -->
     <div class="wallet-container">
         <h2 class="wallet-title">Wallet Return Rate in Toronto</h2>
         <p class="wallet-subtitle">Perception vs. Reality</p>
-        
+
         <div class="wallet-chart-container">
             <div class="wallet-row">
                 <div class="wallet-label">What people expected:</div>
@@ -88,7 +101,7 @@
                     <span class="wallet-icon">💭</span>
                 </div>
             </div>
-            
+
             <div class="wallet-row">
                 <div class="wallet-label">Actual return rate:</div>
                 <div class="wallet-bar-container">
@@ -98,7 +111,7 @@
                     <span class="wallet-icon">👛</span>
                 </div>
             </div>
-            
+
             <div class="wallet-scale">
                 <span>0%</span>
                 <span>20%</span>
@@ -108,21 +121,22 @@
                 <span>100%</span>
             </div>
         </div>
-        
+
         <div class="result-description" id="wallet-result">
-            People in Toronto <span class="highlight">underestimated honesty by 55%</span>. Scientists actually dropped wallets around the city and <span class="highlight">8 out of 10</span> were returned to their owners!
+            People in Toronto <span class="highlight">underestimated honesty by 55%</span>. Scientists actually dropped
+            wallets around the city and <span class="highlight">8 out of 10</span> were returned to their owners!
         </div>
-        
+
         <p class="subtitle">Source: Science Magazine, 2019</p>
     </div>
-    
+
     <div class="section-divider"></div>
-    
+
     <!-- Impact Factor Visualization -->
     <div class="impact-container">
         <h2 class="impact-title">Life Events & Happiness Impact</h2>
         <p class="impact-subtitle">How different factors affect your happiness score</p>
-        
+
         <div class="happiness-meter">
             <div class="happiness-level">
                 <div class="happiness-score" id="happiness-score">7.0</div>
@@ -132,39 +146,40 @@
                 <div class="happiness-bar" id="happiness-bar"></div>
             </div>
         </div>
-        
+
         <div class="impact-factor" id="impact-factor">
             <div class="impact-icon" id="impact-icon">💼</div>
             <div class="impact-text">
                 <div class="impact-title-text" id="impact-title">Doubling Income</div>
-                <div class="impact-description" id="impact-description">Surprisingly, doubling your income only slightly increases happiness.</div>
+                <div class="impact-description" id="impact-description">Surprisingly, doubling your income only slightly
+                    increases happiness.</div>
             </div>
             <div class="impact-value negative" id="impact-value">-0.5</div>
         </div>
-        
+
         <div class="impact-controls">
             <button class="control-btn" id="prev-impact">Previous</button>
             <button class="control-btn" id="next-impact">Next</button>
             <button class="control-btn" id="play-pause">Pause</button>
         </div>
-        
+
         <p class="impact-note">*Based on research from the World Happiness Report</p>
     </div>
-    
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // First animation: Happiness rankings
             setTimeout(() => {
                 const bars = document.querySelectorAll('.bar');
-                
+
                 bars.forEach(bar => {
                     const score = parseFloat(bar.getAttribute('data-score'));
                     const width = (score / 10) * 100;
                     bar.style.width = width + '%';
-                    
+
                     const scoreElement = bar.querySelector('.score');
                     scoreElement.style.opacity = 1;
-                    
+
                     const emojiElement = bar.parentNode.querySelector('.emoji');
                     emojiElement.style.opacity = 1;
                     emojiElement.style.transform = 'translateY(-50%) scale(1.2)';
@@ -173,44 +188,44 @@
                     }, 300);
                 });
             }, 500);
-            
+
             // Second animation: Wallet return rates
             setTimeout(() => {
                 // First show perception
                 const perceivedBar = document.querySelector('.perceived-bar');
                 const perceivedPercentage = parseInt(perceivedBar.getAttribute('data-percentage'));
                 perceivedBar.style.width = perceivedPercentage + '%';
-                
+
                 const perceivedLabel = perceivedBar.querySelector('.wallet-percentage');
                 perceivedLabel.style.opacity = 1;
-                
+
                 const perceivedIcon = perceivedBar.parentNode.querySelector('.wallet-icon');
                 perceivedIcon.style.opacity = 1;
-                
+
                 // Then after a delay, reveal actual results
                 setTimeout(() => {
                     const actualBar = document.querySelector('.actual-bar');
                     const actualPercentage = parseInt(actualBar.getAttribute('data-percentage'));
                     actualBar.style.width = actualPercentage + '%';
-                    
+
                     const actualLabel = actualBar.querySelector('.wallet-percentage');
                     actualLabel.style.opacity = 1;
-                    
+
                     const actualIcon = actualBar.parentNode.querySelector('.wallet-icon');
                     actualIcon.style.opacity = 1;
-                    
+
                     // Show result description
                     setTimeout(() => {
                         const resultDescription = document.getElementById('wallet-result');
                         resultDescription.style.opacity = 1;
                         resultDescription.style.transform = 'translateY(0)';
                     }, 800);
-                    
+
                 }, 1500); // Delay showing actual results
-                
+
             }, 2500); // Start wallet animation after happiness animation
         });
-        
+
         // Third animation: Impact factors
         const impactFactors = [
             {
@@ -235,22 +250,22 @@
                 class: "positive"
             }
         ];
-        
+
         let currentImpactIndex = 0;
         let baseHappiness = 7.0;
         let isPlaying = true;
         let animationTimer;
-        
+
         function updateImpactDisplay(index) {
             const factor = impactFactors[index];
             const impactIcon = document.getElementById('impact-icon');
             const impactTitle = document.getElementById('impact-title');
             const impactDescription = document.getElementById('impact-description');
             const impactValue = document.getElementById('impact-value');
-            
+
             // First fade out current content
             document.getElementById('impact-factor').style.opacity = 0;
-            
+
             setTimeout(() => {
                 // Update content
                 impactIcon.textContent = factor.icon;
@@ -258,32 +273,32 @@
                 impactDescription.textContent = factor.description;
                 impactValue.textContent = factor.value >= 0 ? `+${factor.value}` : factor.value;
                 impactValue.className = `impact-value ${factor.class}`;
-                
+
                 // Fade back in
                 document.getElementById('impact-factor').style.opacity = 1;
-                
+
                 // Update happiness score
                 updateHappinessScore(baseHappiness + factor.value);
             }, 500);
         }
-        
+
         function updateHappinessScore(score) {
             const scoreElement = document.getElementById('happiness-score');
             const emojiElement = document.getElementById('happiness-emoji');
             const barElement = document.getElementById('happiness-bar');
-            
+
             // Update the score with animation
             scoreElement.textContent = score.toFixed(1);
-            
+
             // Update the bar width (scale from 0-10)
             barElement.style.width = `${(score / 10) * 100}%`;
-            
+
             // Update the emoji based on score
             if (score >= 7.6) {
                 emojiElement.textContent = "😁";
             } else if (score >= 7.5) {
                 emojiElement.textContent = "😄";
-            }else if (score >= 7.3) {
+            } else if (score >= 7.3) {
                 emojiElement.textContent = "😊";
             } else if (score >= 7) {
                 emojiElement.textContent = "🙂";
@@ -293,20 +308,20 @@
                 emojiElement.textContent = "☹️";
             }
         }
-        
+
         function nextImpact() {
             currentImpactIndex = (currentImpactIndex + 1) % impactFactors.length;
             updateImpactDisplay(currentImpactIndex);
         }
-        
+
         function prevImpact() {
             currentImpactIndex = (currentImpactIndex - 1 + impactFactors.length) % impactFactors.length;
             updateImpactDisplay(currentImpactIndex);
         }
-        
+
         function startImpactAnimation() {
             updateImpactDisplay(currentImpactIndex);
-            
+
             // Auto-advance every 4 seconds if playing
             animationTimer = setInterval(() => {
                 if (isPlaying) {
@@ -314,11 +329,11 @@
                 }
             }, 4000);
         }
-        
+
         // Initialize impact visualization after wallet visualization
         setTimeout(() => {
             startImpactAnimation();
-            
+
             // Setup control buttons
             document.getElementById('next-impact').addEventListener('click', () => {
                 nextImpact();
@@ -330,7 +345,7 @@
                     }
                 }, 4000);
             });
-            
+
             document.getElementById('prev-impact').addEventListener('click', () => {
                 prevImpact();
                 // Reset the auto-advance timer when manually advancing
@@ -341,12 +356,13 @@
                     }
                 }, 4000);
             });
-            
-            document.getElementById('play-pause').addEventListener('click', function() {
+
+            document.getElementById('play-pause').addEventListener('click', function () {
                 isPlaying = !isPlaying;
                 this.textContent = isPlaying ? "Pause" : "Play";
             });
         }, 5000); // Start after the wallet animation completes
     </script>
 </body>
+
 </html>
