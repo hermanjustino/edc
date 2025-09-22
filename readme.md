@@ -40,7 +40,7 @@ This drag-and-drop quiz helps users understand which level of government—**Mun
 - Personalized result screen
 - Educational feedback on government responsibilities
 
-**Access the quiz:** [Who's in Charge?](./index.html)
+**Access the quiz:** [Who's in Charge?](./whos-in-charge/)
 
 ### 2. Close Elections - Ontario Voting Map
 
@@ -52,7 +52,7 @@ An interactive map visualization showing ridings in Ontario where elections were
 - Displays voter turnout and non-voter statistics
 - Educational tool for understanding electoral impact
 
-**Access the map:** [Close Elections in Ontario](./voters/index.html)
+**Access the map:** [Close Elections in Ontario](./voters/)
 
 ### 3. Global Happiness - Data Visualizations
 
@@ -64,7 +64,35 @@ A series of data visualizations about happiness metrics across different countri
 - Interactive display of factors that impact happiness
 - Educational insights into social trust and community
 
-**Access the visualizations:** [Global Happiness](./happiness/index.html)
+**Access the visualizations:** [Global Happiness](./happiness/)
+
+---
+
+## 📱 Project Structure
+
+The project is organized into the following structure:
+
+```
+<project-directory>
+│
+├── <whos-in-charge-directory>
+│   ├── index.html
+│   ├── styles.css
+│   └── script.js
+│
+├── <voters-directory>
+│   ├── index.html
+│   ├── styles.css
+│   └── script.js
+│
+└── <happiness-directory>
+    ├── index.html
+    ├── styles.css
+    └── script.js
+```
+
+- Each tool has its own directory containing the necessary HTML, CSS, and JavaScript files.
+- The structure is designed to be clean and modular, allowing for easy updates and maintenance.
 
 ---
 
